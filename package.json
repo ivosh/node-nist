@@ -1,7 +1,7 @@
 {
-  "name": "nist",
+  "name": "node-nist",
   "version": "0.1.0",
-  "description": "Simple ANSI/NIST-ITL 1-2011 encoder and decoder.",
+  "description": "Simple ANSI/NIST-ITL 1-2011 (update 2015) encoder and decoder for Node.",
   "author": "Ivo Raisr",
   "license": "MIT",
   "keywords": [
@@ -14,12 +14,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivosh/nist.git"
+    "url": "git+https://github.com/ivosh/node-nist.git"
   },
   "bugs": {
-    "url": "https://github.com/ivosh/nist/issues"
+    "url": "https://github.com/ivosh/node-nist/issues"
   },
-  "homepage": "https://github.com/ivosh/nist#readme",
+  "homepage": "https://github.com/ivosh/node-nist#readme",
   "files": [
     "lib/**/*"
   ],
@@ -34,7 +34,7 @@
     "lint:eslint": "eslint \"src/**/*.ts\"",
     "lint:tslint": "tslint --project tsconfig.json \"src/**/*.ts\"",
     "postversion": "git push && git push --tags",
-    "prepublishOnly": "npm run test && npm run lint",
+    "prepublishOnly": "npm run lint && npm run test",
     "prepare": "npm run build",
     "prettier": "prettier \"src/**/*.{ts,json}\" --write",
     "test": "cross-env NODE_ENV=test jest --env=node --colors",

@@ -2,7 +2,7 @@ import { NistValidationError } from './nistError';
 import { Result } from './result';
 
 /**
- * Simple low-level ANSI/NIST-ITL 1-2011 encoding and decoding utility library.
+ * Simple low-level ANSI/NIST-ITL 1-2011 (update 2015) encoding and decoding utility library.
  *
  * Current limitations:
  * - Supported records: Type-1, Type-2, Type-4, Type-10, Type-13, Type-14.
