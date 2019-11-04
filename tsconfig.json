@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "lib": ["dom", "es2017", "esnext"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "outDir": "./lib",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "target": "es6",
+
+    /* Maximum strictness. */
+    "strict": true,
+
+    /* Module Resolution Options */
+    "esModuleInterop": true
+  },
+  "exclude": ["node_modules", "src/**/*.test.ts", "src/**/test*.ts"]
+}

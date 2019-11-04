@@ -1,0 +1,6 @@
+* text eol=lf
+
+*.jpeg binary
+*.jp2 binary
+*.png binary
+*.wsq binary
