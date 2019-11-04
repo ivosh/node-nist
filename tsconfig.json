@@ -16,5 +16,5 @@
     /* Module Resolution Options */
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "src/**/*.test.ts", "src/**/test*.ts"]
+  "exclude": ["lib", "node_modules", "src/**/*.test.ts", "src/**/test*.ts"]
 }
