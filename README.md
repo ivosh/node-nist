@@ -1,5 +1,9 @@
 ![Travis (.org)](https://img.shields.io/travis/ivosh/node-nist?style=plastic)
 ![Codecov](https://img.shields.io/codecov/c/github/ivosh/node-nist?style=plastic)
+![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/node-nist?style=plastic)
+![npm](https://img.shields.io/npm/dm/node-nist?style=plastic)
+![npm](https://img.shields.io/npm/v/node-nist?style=plastic)
+![NPM](https://img.shields.io/npm/l/node-nist?style=plastic)
 
 # node-nist
 
