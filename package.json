@@ -1,6 +1,6 @@
 {
   "name": "node-nist",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Simple ANSI/NIST-ITL 1-2011 (update 2015) encoder and decoder for Node.",
   "author": "Ivo Raisr",
   "license": "MIT",
