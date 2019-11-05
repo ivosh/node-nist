@@ -1,3 +1,5 @@
+![Travis (.org)](https://img.shields.io/travis/ivosh/node-nist?style=plastic)
+
 # node-nist
 
 A simple low-level ANSI/NIST-ITL 1-2011 (update 2015) encoding and decoding utility library.
