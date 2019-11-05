@@ -1,4 +1,5 @@
 ![Travis (.org)](https://img.shields.io/travis/ivosh/node-nist?style=plastic)
+![Codecov](https://img.shields.io/codecov/c/github/ivosh/node-nist?style=plastic)
 
 # node-nist
 
