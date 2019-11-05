@@ -27,19 +27,3 @@ export const failure = <E>(err: E): Failure<E> => ({
 
 export const match = <T, E>(condition: boolean, value: T, err: E): Result<T, E> =>
   condition ? success(value) : failure(err);
-
-export const matchNonEmptyList = <T, E>(
-  list: T & { length: number } | undefined,
-  err: E
-): Result<T, E> => (list && list.length > 0 ? success(list) : failure(err));
-
-export const firstFailureOrSuccess = <E>(list: Result<void, E>[]): Result<void, E> => {
-  if (list.length === 0) {
-    return success(undefined);
-  }
-  const failures = list.filter(item => item.tag === 'failure');
-  if (failures.length > 0) {
-    return failures[0];
-  }
-  return success(undefined);
-};
