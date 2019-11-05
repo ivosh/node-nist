@@ -1,6 +1,6 @@
-![Travis (.org)](https://img.shields.io/travis/ivosh/node-nist?style=plastic)
-![Codecov](https://img.shields.io/codecov/c/github/ivosh/node-nist?style=plastic)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/node-nist?style=plastic)
+[![Travis (.org)](https://img.shields.io/travis/ivosh/node-nist?style=plastic)](https://travis-ci.org/ivosh/node-nist)
+[![Codecov](https://img.shields.io/codecov/c/github/ivosh/node-nist?style=plastic)](https://codecov.io/gh/ivosh/node-nist)
+[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/node-nist?style=plastic)](https://libraries.io/github/ivosh/node-nist)
 ![npm](https://img.shields.io/npm/dm/node-nist?style=plastic)
 ![npm](https://img.shields.io/npm/v/node-nist?style=plastic)
 ![NPM](https://img.shields.io/npm/l/node-nist?style=plastic)
@@ -17,6 +17,7 @@ Written in Typescript for Node.
   - [Installation](#installation)
   - [Usage](#usage)
     - [Encoding](#encoding)
+  - [Limitations](#limitations)
 
 ## Installation
 
@@ -241,4 +242,13 @@ if (encodeResult.tag === 'success') {
 }
 ```
 
+## Limitations
+
+ * Traditional (binary) encoding is used; NIEM-conformant (XML) is not supported.
+ * Supported records: Type-1, Type-2, Type-4, Type-10, Type-13, Type-14.
+ * Only one Type-2 record is supported.
+ * Information designation character (IDC) is automatically generated during encoding (linking of records is not supported).
+ * All Type-1 fields must be 7-bit ASCII.
+ * Only UTF-8 is supported for other record types.
+ * Only one Friction ridge generalized position (FGP, 4.004) is supported per one Type-4 record.
 
