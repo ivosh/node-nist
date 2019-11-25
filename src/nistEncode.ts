@@ -88,7 +88,12 @@ const determineCharset = ({ nist }: { nist: NistFile }): Result<void, NistValida
     visitorStrategy: {}
   });
   if (result.tag === 'failure') {
-    nist[1][15] = ['3', 'UTF-8'];
+    /*
+     * Note: There is some ambiguity in NIST standard regarding whether to indicate UTF-8
+     * charset with field 1.015. Section 5.5, Annex A and Annex B imply that 1.015 is needed
+     * while section 8 implies it is not needed.
+     */
+    nist[1][15] = [['3', 'UTF-8']];
   }
 
   return success(undefined);
