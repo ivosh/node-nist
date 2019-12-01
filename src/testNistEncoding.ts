@@ -101,6 +101,155 @@ export const nistEncodeOptions: NistEncodeOptions = {
         8 /* cga */: {
           defaultValue: '1', // WSQ
           mandatory: true
+        },
+        9 /* data */: {
+          mandatory: true
+        }
+      },
+      10: {
+        3 /* imt */: {
+          mandatory: true
+        },
+        4 /* src */: {
+          mandatory: true
+        },
+        5 /* phd */: {
+          mandatory: true,
+          regexs: [{ regex: '^[0-9]{8}$', errMsg: 'Expected eight digits' }]
+        },
+        6 /* hll */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 2,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 10 and 99999' }
+          ]
+        },
+        7 /* vll */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 2,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 10 and 99999' }
+          ]
+        },
+        8 /* slc */: {
+          mandatory: true,
+          maxLength: 1,
+          minLength: 1,
+          regexs: [{ regex: '^[0-2]{1}$', errMsg: 'Expected a positive number between 0 and 2' }]
+        },
+        9 /* thps */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 1,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 1 and 99999' }
+          ]
+        },
+        10 /* tvps */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 1,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 1 and 99999' }
+          ]
+        },
+        11 /* cga */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 3,
+          regexs: [
+            {
+              errMsg: 'Expected a valid compression algorithm for a face image',
+              regex: '^(?:JPEGB|JPEGL|JP2|PNG)$'
+            }
+          ]
+        },
+        12 /* csp */: {
+          mandatory: true,
+          maxLength: 4,
+          minLength: 3
+        },
+        20 /* pos */: {
+          maxLength: 1,
+          regexs: [{ regex: '^[FRLAD]$', errMsg: 'Expected a valid subject pose for a face image' }]
+        },
+        999 /* data */: {
+          mandatory: true
+        }
+      },
+      13: {
+        3 /* imp */: {
+          mandatory: true
+        },
+        4 /* src */: {
+          mandatory: true
+        },
+        5 /* lcd */: {
+          mandatory: true,
+          regexs: [{ regex: '^[0-9]{8}$', errMsg: 'Expected eight digits' }]
+        },
+        6 /* hll */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 2,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 10 and 99999' }
+          ]
+        },
+        7 /* vll */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 2,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 10 and 99999' }
+          ]
+        },
+        8 /* slc */: {
+          mandatory: true,
+          maxLength: 1,
+          minLength: 1,
+          regexs: [{ regex: '^[0-2]{1}$', errMsg: 'Expected a positive number between 0 and 2' }]
+        },
+        9 /* thps */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 1,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 1 and 99999' }
+          ]
+        },
+        10 /* tvps */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 1,
+          regexs: [
+            { regex: '^[0-9]{1,5}$', errMsg: 'Expected a positive number between 1 and 99999' }
+          ]
+        },
+        11 /* cga */: {
+          mandatory: true,
+          maxLength: 5,
+          minLength: 3,
+          regexs: [
+            {
+              errMsg: 'Expected a valid compression algorithm for a latent image',
+              regex: '^(?:JPEGL|JP2L|PNG|WSQ)$'
+            }
+          ]
+        },
+        12 /* bpx */: {
+          mandatory: true,
+          maxLength: 2,
+          minLength: 1,
+          regexs: [{ regex: '^[0-9]{1,2}$', errMsg: 'Expected a positive number between 8 and 99' }]
+        },
+        13 /* fgp */: {
+          mandatory: true
+        },
+        999 /* data */: {
+          mandatory: true
         }
       }
     }

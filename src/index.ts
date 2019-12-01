@@ -114,6 +114,21 @@ export interface NistType10Record {
 
 /** Variable-resolution latent friction ridge image. */
 export interface NistType13Record {
+  1?: /* len */ string /* computed automatically during encoding process */;
+  2?: /* idc */ string /* computed automatically during encoding process */;
+  3: /* imp */ string;
+  4: /* src */ string;
+  5: /* lcd */ string;
+  6: /* hll */ string;
+  7: /* vll */ string;
+  8: /* slc */ string;
+  9: /* thps */ string;
+  10: /* tvps */ string;
+  11: /* cga */ string;
+  12: /* bpx */ string;
+  13: /* fgp */ string[];
+  999: /* data */ Buffer;
+  // For all other fields not mentioned above:
   [key: number]: NistFieldValue;
 }
 

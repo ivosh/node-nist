@@ -482,6 +482,46 @@ describe('positive test:', () => {
     const decodeResult = nistDecode(buffer, {});
     expect(decodeResult.tag).toEqual('success');
   });
+
+  it('Type-1, Type-2, Type-13 with default options - encode into a Buffer', () => {
+    const nist: NistFile = {
+      1: {
+        2: '0502',
+        4: 'CRM',
+        5: '20191201',
+        7: 'DAI035454',
+        8: 'ORI38574354',
+        9: 'TCN2487S054'
+      },
+      2: {
+        4: 'John',
+        5: 'Doe',
+        7: '1978-05-12'
+      },
+      13: [
+        {
+          3: '4', // latent
+          4: 'ORI38574354',
+          5: '20191201',
+          6: '500',
+          7: '750',
+          8: '1', // 1 = pixels per inch
+          9: '500',
+          10: '700',
+          11: 'WSQ',
+          12: '8',
+          13: ['0'], // unknown finger
+          999: fp1
+        }
+      ]
+    };
+
+    const result = nistEncode(nist, nistEncodeOptions);
+    expect(result.tag).toEqual('success');
+    expect((result as Success<Buffer>).value.byteLength).toBe(10277);
+    expect((result as Success<Buffer>).value).toMatchSnapshot();
+    // await fsPromises.writeFile('type-1-2-13.tdf', (result as Success<Buffer>).value);
+  });
 });
 
 describe('negative test:', () => {
