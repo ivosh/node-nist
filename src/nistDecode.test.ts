@@ -172,6 +172,10 @@ describe('positive test:', () => {
         7: '1978-05-12'
       }
     });
+
+    // Providing no value for decode options should work as well.
+    const result2 = nistDecode(buffer);
+    expect(result2.tag).toEqual('success');
   });
 
   it('decode Type-1, Type-2, and Type-4 with default options', () => {

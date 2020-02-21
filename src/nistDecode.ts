@@ -532,7 +532,7 @@ const decodeNistFile = (buffer: Buffer): Result<NistFileInternal, NistDecodeErro
 /** Decodes a Buffer into a NistFile structure. */
 export const nistDecode = (
   buffer: Buffer,
-  options: NistDecodeOptions
+  options: NistDecodeOptions = {}
 ): Result<NistFile, NistDecodeError | NistValidationError> => {
   // 1. Decode the buffer.
   const nistFileInternal = decodeNistFile(buffer);

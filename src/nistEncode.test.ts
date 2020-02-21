@@ -329,6 +329,10 @@ describe('positive test:', () => {
     expect((result as Success<Buffer>).value.byteLength).toBe(193);
     expect((result as Success<Buffer>).value).toMatchSnapshot();
     // await fsPromises.writeFile('type-1-2.tdf', (result as Success<Buffer>).value);
+
+    // Providing no value for encode options should work as well.
+    const result2 = nistEncode(nist);
+    expect(result2.tag).toEqual('success');
   });
 
   it('Type-1, Type-2, Type-4 with default options - encode into a Buffer', () => {

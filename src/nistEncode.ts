@@ -466,7 +466,7 @@ export const nistPopulate = (
 /** Encodes a NistFile structure into a Buffer. */
 export const nistEncode = (
   nist: NistFile,
-  options: NistEncodeOptions
+  options: NistEncodeOptions = {}
 ): Result<Buffer, NistValidationError | NistEncodeError> => {
   // 1. check for validity
   const result1 = nistValidation(nist, { ...options, checkForbiddenFields: true });
