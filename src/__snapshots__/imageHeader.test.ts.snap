@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JPEG image header: JPEG APP0 segment does not contain JFIF identifier 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG image does not contain 'JFIF' identifier in APP0 segment.",
+}
+`;
+
+exports[`JPEG image header: JPEG data too small 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG data length is too small (less than 18 bytes).",
+}
+`;
+
+exports[`JPEG image header: JPEG image does not contain APP0 segment 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG image does not contain APP0 marker ff e0.",
+}
+`;
+
+exports[`JPEG image header: JPEG image does not start with SOI 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG image does not start with a start marker (SOI) ff d8.",
+}
+`;
+
+exports[`JPEG image header: no SOF0 segment 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG image does not contain segment SOF0 with image dimensions.",
+}
+`;
+
+exports[`JPEG image header: segment does not start with a marker 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG segment does not start with a marker 0xff.",
+}
+`;
+
+exports[`JPEG image header: segment length 0 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG segment contains segment length of 0 at offset 11.",
+}
+`;
+
+exports[`JPEG image header: segment length exceeds total length 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG image does not contain segment SOF0 with image dimensions.",
+}
+`;
+
+exports[`JPEG image header: truncated SOF0 segment 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG image seems to be truncated for SOF0 segment: 11 + 8 >= 18",
+}
+`;
+
+exports[`JPEG2000 image header: JPEG2000 data too small 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG2000 data length is too small (less than 8 bytes).",
+}
+`;
+
+exports[`JPEG2000 image header: JPEG2000 image does not start with "jP  " 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG2000 image does not contain 'jP  ' signature.",
+}
+`;
+
+exports[`JPEG2000 image header: no jp2h segment 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG2000 image does not contain header segment with image dimensions.",
+}
+`;
+
+exports[`JPEG2000 image header: segment length exceeds total length 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG2000 image seems to be truncated: 12 + 8 >= 20",
+}
+`;
+
+exports[`JPEG2000 image header: segment length of 0 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG2000 segment contains segment length of 0 at offset 12.",
+}
+`;
+
+exports[`JPEG2000 image header: truncated jp2h segment 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "JPEG2000 image seems to be truncated for header segment: 12 + 24 >= 21",
+}
+`;
+
+exports[`WSQ image header: WSQ data too small 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "WSQ data length is too small (less than 14 bytes).",
+}
+`;
+
+exports[`WSQ image header: WSQ image does not start with SOI 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "WSQ image does not start with a start marker (SOI) ff a0.",
+}
+`;
+
+exports[`WSQ image header: no SOF segment 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "WSQ image does not contain segment SOF with image dimensions.",
+}
+`;
+
+exports[`WSQ image header: segment does not start with a marker 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "WSQ segment does not start with a marker 0xff.",
+}
+`;
+
+exports[`WSQ image header: segment length 0 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "WSQ segment contains segment length of 0 at offset 11.",
+}
+`;
+
+exports[`WSQ image header: segment length exceeds total length 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "WSQ image does not contain segment SOF with image dimensions.",
+}
+`;
+
+exports[`WSQ image header: truncated SOF segment 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "WSQ image seems to be truncated for SOF segment: 11 + 10 >= 20",
+}
+`;
+
+exports[`image types: determine nothing 1`] = `
+Object {
+  "category": "VALIDATION",
+  "code": "IMAGE_HEADER",
+  "detail": "Unable to determine image type.",
+}
+`;
