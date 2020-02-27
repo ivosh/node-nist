@@ -216,3 +216,4 @@ export interface NistCodecOptions<
 export { nistDecode, NistDecodeOptions } from './nistDecode';
 export { nistEncode, NistEncodeOptions } from './nistEncode';
 export { NistError } from './nistError';
+export { Dimensions, getImageHeader, ImageHeader, Resolution } from './imageHeader';
