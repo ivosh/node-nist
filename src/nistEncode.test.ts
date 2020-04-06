@@ -29,25 +29,25 @@ describe('positive test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: '0', // flat finger
           4: ['7'], // left index finger
-          9: fp1
+          9: fp1,
         },
         {
           3: '0', // flat finger
           4: ['2'], // right index finger
-          9: fp2
-        }
-      ]
+          9: fp2,
+        },
+      ],
     };
 
     const result = nistPopulate(nistInput, nistEncodeOptions);
@@ -62,7 +62,7 @@ describe('positive test:', () => {
           ['1', '3'],
           ['2', '00'],
           ['4', '01'],
-          ['4', '02']
+          ['4', '02'],
         ],
         4: 'CRM',
         5: '20190717',
@@ -70,14 +70,14 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '19.69',
-        12: '19.69'
+        12: '19.69',
       },
       2: {
         1: '56',
         2: '00',
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
@@ -89,7 +89,7 @@ describe('positive test:', () => {
           6: '500',
           7: '750',
           8: '1',
-          9: fp1
+          9: fp1,
         },
         {
           1: '10154',
@@ -100,9 +100,9 @@ describe('positive test:', () => {
           6: '500',
           7: '750',
           8: '1',
-          9: fp2
-        }
-      ]
+          9: fp2,
+        },
+      ],
     });
   });
 
@@ -114,13 +114,13 @@ describe('positive test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'Koloděj',
         5: 'Převor',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
 
     const result = nistPopulate(nistInput, nistEncodeOptions);
@@ -133,7 +133,7 @@ describe('positive test:', () => {
         2: '0502',
         3: [
           ['1', '1'],
-          ['2', '00']
+          ['2', '00'],
         ],
         4: 'CRM',
         5: '20190717',
@@ -142,15 +142,15 @@ describe('positive test:', () => {
         9: 'TCN2487S054',
         11: '00.00',
         12: '00.00',
-        15: [['3', 'UTF-8']]
+        15: [['3', 'UTF-8']],
       },
       2: {
         1: '64',
         2: '00',
         4: 'Koloděj',
         5: 'Převor',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     });
   });
 
@@ -162,8 +162,8 @@ describe('positive test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
 
     const result = nistPopulate(nistInput, nistEncodeOptions);
@@ -181,8 +181,8 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
-      }
+        12: '00.00',
+      },
     });
   });
 
@@ -193,8 +193,8 @@ describe('positive test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
 
     const result = nistPopulate(nistInput, nistEncodeOptions);
@@ -212,8 +212,8 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
-      }
+        12: '00.00',
+      },
     });
   });
 
@@ -225,8 +225,8 @@ describe('positive test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
 
     const result = nistPopulate(nistInput, nistEncodeOptions);
@@ -244,8 +244,8 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
-      }
+        12: '00.00',
+      },
     });
   });
 
@@ -257,8 +257,8 @@ describe('positive test:', () => {
         5: '20190930',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
 
     const result = nistPopulate(nistInput, nistEncodeOptions);
@@ -277,8 +277,8 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
-      }
+        12: '00.00',
+      },
     });
   });
 
@@ -293,14 +293,14 @@ describe('positive test:', () => {
         9: 'TCN2487S054-2',
         10: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         4: 'John',
         5: 'Doe',
         7: '1978-05-12',
-        59: 'N' // no-hit => field 2.064 is optional
-      }
+        59: 'N', // no-hit => field 2.064 is optional
+      },
     };
 
     const result = nistEncode(nistInput, nistEncodeOptions);
@@ -315,13 +315,13 @@ describe('positive test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
 
     const result = nistEncode(nist, nistEncodeOptions);
@@ -343,23 +343,23 @@ describe('positive test:', () => {
         5: '20190722',
         7: 'CABIS',
         8: 'MID00001',
-        9: 'MBI20190722093422-IDE-00040'
+        9: 'MBI20190722093422-IDE-00040',
       },
       2: {
-        901: 'MID00001'
+        901: 'MID00001',
       },
       4: [
         {
           3: '0', // flat finger
           4: ['7'], // left index finger
-          9: fp1
+          9: fp1,
         },
         {
           3: '0', // flat finger
           4: ['2'], // right index finger
-          9: fp2
-        }
-      ]
+          9: fp2,
+        },
+      ],
     };
 
     const result = nistEncode(nist, nistEncodeOptions);
@@ -379,13 +379,13 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
 
     const result = nistPopulate(nistInput, nistEncodeOptions);
@@ -398,7 +398,7 @@ describe('positive test:', () => {
         2: '0502',
         3: [
           ['1', '1'],
-          ['2', '00']
+          ['2', '00'],
         ],
         4: 'CRM',
         5: '20190930',
@@ -406,15 +406,15 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         1: '56',
         2: '00',
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     });
   });
 
@@ -428,13 +428,13 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
 
     const result = nistEncode(nistInput, nistEncodeOptions);
@@ -453,7 +453,7 @@ describe('positive test:', () => {
         8: 'FIMB-SL-d',
         9: 'MBI-20191024T154641.244-QS',
         11: '19.69',
-        12: '19.69'
+        12: '19.69',
       },
       2: {
         38: '20191024',
@@ -462,7 +462,7 @@ describe('positive test:', () => {
         500: 'Y',
         501: 'Y',
         502: 'Y',
-        905: 'CRIMINALCHECK'
+        905: 'CRIMINALCHECK',
       },
       4: [
         {
@@ -472,9 +472,9 @@ describe('positive test:', () => {
           6: '500', // horizontal line length
           7: '750', // vertical line length
           8: '1', // WSQ
-          9: fp2
-        }
-      ]
+          9: fp2,
+        },
+      ],
     };
 
     const encodeResult = nistEncode(nist, nistEncodeOptions);
@@ -495,12 +495,12 @@ describe('positive test:', () => {
         5: '20191201',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       13: [
         {
@@ -515,9 +515,9 @@ describe('positive test:', () => {
           11: 'WSQ',
           12: '8',
           13: ['0'], // unknown finger
-          999: fp1
-        }
-      ]
+          999: fp1,
+        },
+      ],
     };
 
     const result = nistEncode(nist, nistEncodeOptions);
@@ -535,15 +535,15 @@ describe('negative test:', () => {
       5: '20190717',
       7: 'DAI035454',
       8: 'ORI38574354',
-      9: 'TCN2487S054'
+      9: 'TCN2487S054',
     };
     const nist: NistFile = {
       1: type1 as NistType1Record,
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -562,13 +562,13 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -587,13 +587,13 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -612,8 +612,8 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -632,8 +632,8 @@ describe('negative test:', () => {
         5: '20190x17',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -653,8 +653,8 @@ describe('negative test:', () => {
         6: '10',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -674,8 +674,8 @@ describe('negative test:', () => {
         7: 'DAI035454',
         8: 'ORI38574354',
         9: 'TCN2487S054',
-        11: '3x5'
-      }
+        11: '3x5',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -695,8 +695,8 @@ describe('negative test:', () => {
         7: 'DAI035454',
         8: 'ORI38574354',
         9: 'TCN2487S054',
-        12: '5.12'
-      }
+        12: '5.12',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -715,8 +715,8 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'překážky na dráze',
-        9: 'TCN2487S054'
-      }
+        9: 'TCN2487S054',
+      },
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -735,20 +735,20 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: '0', // flat finger
           4: ['7'], // left index finger
-          9: generateBinaryData(2 * 1024 * 1024 * 1024 - 1)
-        }
-      ]
+          9: generateBinaryData(2 * 1024 * 1024 * 1024 - 1),
+        },
+      ],
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -767,20 +767,20 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: 'aloha',
           4: ['7'], // left index finger
-          9: generateBinaryData(1024)
-        }
-      ]
+          9: generateBinaryData(1024),
+        },
+      ],
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -799,20 +799,20 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: '0',
           4: ['7', 'aloha'],
-          9: generateBinaryData(1024)
-        }
-      ]
+          9: generateBinaryData(1024),
+        },
+      ],
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -831,21 +831,21 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: '0',
           4: ['7', '0'],
           5: 'aloha',
-          9: generateBinaryData(1024)
-        }
-      ]
+          9: generateBinaryData(1024),
+        },
+      ],
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -864,21 +864,21 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: '0',
           4: ['7', '0'],
           6: 'aloha',
-          9: generateBinaryData(1024)
-        }
-      ]
+          9: generateBinaryData(1024),
+        },
+      ],
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -897,21 +897,21 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: '0',
           4: ['7', '0'],
           7: 'aloha',
-          9: generateBinaryData(1024)
-        }
-      ]
+          9: generateBinaryData(1024),
+        },
+      ],
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -930,21 +930,21 @@ describe('negative test:', () => {
         5: '20190717',
         7: 'DAI035454',
         8: 'ORI38574354',
-        9: 'TCN2487S054'
+        9: 'TCN2487S054',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
+        7: '1978-05-12',
       },
       4: [
         {
           3: '0',
           4: ['7', '0'],
           8: 'aloha',
-          9: generateBinaryData(1024)
-        }
-      ]
+          9: generateBinaryData(1024),
+        },
+      ],
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
@@ -966,13 +966,13 @@ describe('negative test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
     const result = nistEncode(nistInput, nistEncodeOptions);
 
@@ -993,14 +993,14 @@ describe('negative test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         2: '00',
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     };
     const result = nistEncode(nistInput, nistEncodeOptions);
 

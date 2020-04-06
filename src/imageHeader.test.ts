@@ -6,7 +6,7 @@ import {
   getWsqHeader,
   ImageHeader,
   ImageHeaderError,
-  ResolutionUnits
+  ResolutionUnits,
 } from './imageHeader';
 import { Failure, Success } from './result';
 
@@ -29,7 +29,7 @@ describe('JPEG image header:', () => {
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 400, height: 533 },
       resolution: { horizontal: 150, vertical: 150, units: ResolutionUnits.PIXELS_PER_INCH },
-      type: 'JPEG'
+      type: 'JPEG',
     });
   });
 
@@ -62,7 +62,7 @@ describe('JPEG image header:', () => {
         0x01,
         0x40,
         0x01,
-        0xe0
+        0xe0,
       ])
     );
 
@@ -70,7 +70,7 @@ describe('JPEG image header:', () => {
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 480, height: 320 },
       resolution: { horizontal: 500, vertical: 500, units: ResolutionUnits.PIXELS_PER_INCH },
-      type: 'JPEG'
+      type: 'JPEG',
     });
   });
 
@@ -104,7 +104,7 @@ describe('JPEG image header:', () => {
         0x0f,
         0x10,
         0x11,
-        0x12
+        0x12,
       ])
     );
 
@@ -135,7 +135,7 @@ describe('JPEG image header:', () => {
         0x0f,
         0x10,
         0x11,
-        0x12
+        0x12,
       ])
     );
 
@@ -166,7 +166,7 @@ describe('JPEG image header:', () => {
         0x0f,
         0x10,
         0x11,
-        0x12
+        0x12,
       ])
     );
 
@@ -198,7 +198,7 @@ describe('JPEG image header:', () => {
         0x0f,
         0x10,
         0x11,
-        0x12
+        0x12,
       ])
     );
 
@@ -229,7 +229,7 @@ describe('JPEG image header:', () => {
         0x00,
         0x00,
         0x00,
-        0x00
+        0x00,
       ])
     );
 
@@ -260,7 +260,7 @@ describe('JPEG image header:', () => {
         0x00,
         0xee,
         0x00,
-        0x00
+        0x00,
       ])
     );
 
@@ -291,7 +291,7 @@ describe('JPEG image header:', () => {
         0x05,
         0x00,
         0x00,
-        0x00
+        0x00,
       ])
     );
 
@@ -322,7 +322,7 @@ describe('JPEG image header:', () => {
         0x00,
         0xff,
         0xff,
-        0xff
+        0xff,
       ])
     );
 
@@ -341,7 +341,7 @@ describe('JPEG2000 image header:', () => {
     expect(result.tag).toEqual('success');
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 240, height: 320 },
-      type: 'JPEG2000'
+      type: 'JPEG2000',
     });
   });
 
@@ -384,14 +384,14 @@ describe('JPEG2000 image header:', () => {
         0x00,
         0x01,
         0xe0,
-        0x00
+        0x00,
       ])
     );
 
     expect(result.tag).toEqual('success');
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 480, height: 320 },
-      type: 'JPEG2000'
+      type: 'JPEG2000',
     });
   });
 
@@ -439,7 +439,7 @@ describe('JPEG2000 image header:', () => {
         0x66,
         0x74,
         0x79,
-        0x70
+        0x70,
       ])
     );
 
@@ -473,7 +473,7 @@ describe('JPEG2000 image header:', () => {
         0x70,
         0x32,
         0x68,
-        0x00
+        0x00,
       ])
     );
 
@@ -507,7 +507,7 @@ describe('JPEG2000 image header:', () => {
         0x70,
         0x31,
         0x68,
-        0x00
+        0x00,
       ])
     );
 
@@ -544,7 +544,7 @@ describe('JPEG2000 image header:', () => {
         0x00,
         0x00,
         0x00,
-        0x0a
+        0x0a,
       ])
     );
 
@@ -564,7 +564,7 @@ describe('image types:', () => {
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 400, height: 533 },
       resolution: { horizontal: 150, vertical: 150, units: ResolutionUnits.PIXELS_PER_INCH },
-      type: 'JPEG'
+      type: 'JPEG',
     });
   });
 
@@ -574,7 +574,7 @@ describe('image types:', () => {
     expect(result.tag).toEqual('success');
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 240, height: 320 },
-      type: 'JPEG2000'
+      type: 'JPEG2000',
     });
   });
 
@@ -597,7 +597,7 @@ describe('WSQ image header:', () => {
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 320, height: 480 },
       resolution: { horizontal: 500, vertical: 500, units: ResolutionUnits.PIXELS_PER_INCH },
-      type: 'WSQ'
+      type: 'WSQ',
     });
   });
 
@@ -639,7 +639,7 @@ describe('WSQ image header:', () => {
         0x01,
         0x40,
         0xff,
-        0xa1
+        0xa1,
       ])
     );
 
@@ -647,7 +647,7 @@ describe('WSQ image header:', () => {
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 320, height: 480 },
       resolution: { horizontal: 500, vertical: 500, units: ResolutionUnits.PIXELS_PER_INCH },
-      type: 'WSQ'
+      type: 'WSQ',
     });
   });
 
@@ -681,7 +681,7 @@ describe('WSQ image header:', () => {
         0x0f,
         0x10,
         0x11,
-        0x12
+        0x12,
       ])
     );
 
@@ -715,7 +715,7 @@ describe('WSQ image header:', () => {
         0x11,
         0x12,
         0xff,
-        0xa1
+        0xa1,
       ])
     );
 
@@ -748,7 +748,7 @@ describe('WSQ image header:', () => {
         0x00,
         0x00,
         0xff,
-        0xa1
+        0xa1,
       ])
     );
 
@@ -781,7 +781,7 @@ describe('WSQ image header:', () => {
         0x00,
         0x00,
         0xff,
-        0xa1
+        0xa1,
       ])
     );
 
@@ -814,7 +814,7 @@ describe('WSQ image header:', () => {
         0x00,
         0x00,
         0xff,
-        0xa1
+        0xa1,
       ])
     );
 
@@ -847,7 +847,7 @@ describe('WSQ image header:', () => {
         0xff,
         0xff,
         0xff,
-        0xa1
+        0xa1,
       ])
     );
 
@@ -900,7 +900,7 @@ describe('WSQ image header:', () => {
         0x01,
         0x40,
         0xff,
-        0xa1
+        0xa1,
       ])
     );
 
@@ -908,7 +908,7 @@ describe('WSQ image header:', () => {
     expect((result as Success<ImageHeader>).value).toEqual({
       dimensions: { width: 320, height: 480 },
       resolution: { horizontal: 500, vertical: 500, units: ResolutionUnits.PIXELS_PER_INCH },
-      type: 'WSQ'
+      type: 'WSQ',
     });
   });
 });

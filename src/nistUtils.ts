@@ -3,7 +3,7 @@ import {
   NistFile,
   NistFileCodecOptions,
   NistRecord,
-  NistRecordCodecOptions
+  NistRecordCodecOptions,
 } from './index';
 import { NistValidationError } from './nistError';
 import { NistFieldVisitorFn, NistFieldVisitorFnReturn, visitNistFile } from './nistVisitor';
@@ -23,7 +23,7 @@ export const nistValidationError = (
   code: 'NIST_VALIDATION_ERROR',
   detail,
   nistSource: source,
-  source: `${source.type}/${source.record}/${source.field}`
+  source: `${source.type}/${source.record}/${source.field}`,
 });
 
 /* Used only internally to index into all NIST record types. */
@@ -54,7 +54,7 @@ const defaultValueForNistField: NistFieldVisitorFn<
 
 export const provideDefaults = ({
   nist,
-  codecOptions
+  codecOptions,
 }: {
   nist: NistFile;
   codecOptions: NistFileCodecOptions<{}, {}> | undefined;
@@ -63,7 +63,7 @@ export const provideDefaults = ({
     fieldVisitor: { fn: defaultValueForNistField, data: undefined },
     nist,
     options: codecOptions,
-    visitorStrategy: { visitMissingFields: true }
+    visitorStrategy: { visitMissingFields: true },
   });
 
   return success(undefined);

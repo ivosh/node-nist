@@ -8,17 +8,17 @@ export const nistDecodeOptions: NistDecodeOptions = {
     MAP: {
       2: {
         48: {
-          mandatory: true
-        }
-      }
+          mandatory: true,
+        },
+      },
     },
     SRE: {
       2: {
         23: {
           defaultValue: 'sorry',
-          mandatory: true
-        }
-      }
+          mandatory: true,
+        },
+      },
     },
     default: {
       1: {
@@ -26,61 +26,61 @@ export const nistDecodeOptions: NistDecodeOptions = {
           mandatory: true,
           maxLength: 4,
           minLength: 3,
-          regexs: [{ regex: '^[0-9]{3,4}$', errMsg: 'Expected three or four digits' }]
+          regexs: [{ regex: '^[0-9]{3,4}$', errMsg: 'Expected three or four digits' }],
         },
         4 /* tot */: {
           mandatory: true,
-          maxLength: 16
+          maxLength: 16,
         },
         5 /* dat */: {
           mandatory: true,
-          regexs: [{ regex: '^[0-9]{8}$', errMsg: 'Expected eight digits' }]
+          regexs: [{ regex: '^[0-9]{8}$', errMsg: 'Expected eight digits' }],
         },
         6 /* pry */: {
           mandatory: false,
-          regexs: [{ regex: '^[1-9]{1}$', errMsg: 'Expected a number between 1 and 9' }]
+          regexs: [{ regex: '^[1-9]{1}$', errMsg: 'Expected a number between 1 and 9' }],
         },
         7 /* dai */: {
-          mandatory: true
+          mandatory: true,
         },
         8 /* ori */: {
-          mandatory: true
+          mandatory: true,
         },
         9 /* tcn */: {
-          mandatory: true
+          mandatory: true,
         },
         10 /* tcr */: {
-          mandatory: false
+          mandatory: false,
         },
         11 /* nsr */: {
           mandatory: true,
-          regexs: [{ regex: '^[0-9]{2}.[0-9]{2}$', errMsg: 'Expected a string in format dd.dd' }]
+          regexs: [{ regex: '^[0-9]{2}.[0-9]{2}$', errMsg: 'Expected a string in format dd.dd' }],
         },
         12 /* ntr */: {
           mandatory: true,
-          regexs: [{ regex: '^[0-9]{2}.[0-9]{2}$', errMsg: 'Expected a string in format dd.dd' }]
-        }
+          regexs: [{ regex: '^[0-9]{2}.[0-9]{2}$', errMsg: 'Expected a string in format dd.dd' }],
+        },
       },
       4: {
         3 /* imp */: {
-          mandatory: true
+          mandatory: true,
         },
         4 /* fgp */: {
-          mandatory: true
+          mandatory: true,
         },
         5 /* isr */: {
-          mandatory: true
+          mandatory: true,
         },
         6 /* hll */: {
-          mandatory: true
+          mandatory: true,
         },
         7 /* vll */: {
-          mandatory: true
+          mandatory: true,
         },
         8 /* cga */: {
-          mandatory: true
-        }
-      }
-    }
-  }
+          mandatory: true,
+        },
+      },
+    },
+  },
 };

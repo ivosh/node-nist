@@ -11,7 +11,7 @@ import {
   NistRecordCodecOptions,
   NistSubfield,
   NistType1Record,
-  NistType4Record
+  NistType4Record,
 } from './index';
 import { NistDecodeError, NistParseError, NistValidationError } from './nistError';
 import {
@@ -23,7 +23,7 @@ import {
   SEPARATOR_FILE,
   SEPARATOR_GROUP,
   SEPARATOR_RECORD,
-  SEPARATOR_UNIT
+  SEPARATOR_UNIT,
 } from './nistUtils';
 import { nistValidation } from './nistValidation';
 import { failure, Result, success } from './result';
@@ -68,7 +68,7 @@ const nistDecodeError = (
     `${source.type}/${source.record}/${source.field}${
       source.subField ? `/${source.subField}` : ''
     }`,
-  startOffset
+  startOffset,
 });
 
 const findSeparator = (
@@ -87,7 +87,7 @@ const findSeparators = (
   startOffset: number,
   endOffset: number
 ): number | undefined => {
-  const offsets = separators.map(separator =>
+  const offsets = separators.map((separator) =>
     findSeparator(buffer, separator, startOffset, endOffset)
   );
   return offsets.reduce(
@@ -115,7 +115,7 @@ const decodeNistSubfield = (
   while (offset <= endOffset) {
     subfield = [
       ...subfield,
-      stringValue(buffer, offset, unitSeparator ? unitSeparator - 1 : endOffset)
+      stringValue(buffer, offset, unitSeparator ? unitSeparator - 1 : endOffset),
     ];
     offset = (unitSeparator || endOffset) + 1;
     unitSeparator = findSeparator(buffer, SEPARATOR_UNIT, offset, endOffset);
@@ -146,7 +146,7 @@ const decodeNistFieldValue = (
   while (offset <= endOffset) {
     fieldValue = [
       ...fieldValue,
-      decodeNistSubfield(buffer, offset, recordSeparator ? recordSeparator - 1 : endOffset)
+      decodeNistSubfield(buffer, offset, recordSeparator ? recordSeparator - 1 : endOffset),
     ];
     offset = (recordSeparator || endOffset) + 1;
     recordSeparator = findSeparator(buffer, SEPARATOR_RECORD, offset, endOffset);
@@ -183,7 +183,7 @@ const decodeNistFieldKey = (
 
   return success({
     key: { type: parseInt(match[1], 10), record: recordInstance, field: parseInt(match[2], 10) },
-    keyLength: separatorOffset - startOffset + 1
+    keyLength: separatorOffset - startOffset + 1,
   });
 };
 
@@ -242,18 +242,18 @@ const decodeType4Record = (
   endOffset: number
 ): Result<DecodeType4RecordResult, NistDecodeError> => {
   if (endOffset - startOffset < 18) {
-    const detail = `NIST Type-4 record #${recordInstance} contains only ${endOffset -
-      startOffset +
-      1} bytes but at least 18 bytes required.`;
+    const detail = `NIST Type-4 record #${recordInstance} contains only ${
+      endOffset - startOffset + 1
+    } bytes but at least 18 bytes required.`;
     return failure(nistDecodeError(detail, undefined, startOffset, endOffset));
   }
 
   const length = buffer.readUInt32BE(startOffset + 0);
   const recordEndOffset = startOffset + length - 1;
   if (recordEndOffset > endOffset) {
-    const detail = `NIST Type-4 record #${recordInstance}'s record length indicates ${length} bytes but only ${endOffset -
-      startOffset +
-      1} available.`;
+    const detail = `NIST Type-4 record #${recordInstance}'s record length indicates ${length} bytes but only ${
+      endOffset - startOffset + 1
+    } available.`;
     return failure(
       nistDecodeError(detail, { type: 4, record: recordInstance, field: 1 }, startOffset, endOffset)
     );
@@ -277,9 +277,9 @@ const decodeType4Record = (
       6: String(hll),
       7: String(vll),
       8: String(cga),
-      9: data
+      9: data,
     },
-    recordLength: length
+    recordLength: length,
   });
 };
 
@@ -360,9 +360,9 @@ export const decodeGenericNistRecord = (
         const detail = `Record length decoded from NIST field ${formatFieldKey(
           nistField.key.type,
           nistField.key.field
-        )} indicates ${recordLength.value} bytes but only ${endOffset -
-          startOffset +
-          1} available.`;
+        )} indicates ${recordLength.value} bytes but only ${
+          endOffset - startOffset + 1
+        } available.`;
         return failure(nistDecodeError(detail, nistField.key, startOffset, recordEndOffset));
       }
 
@@ -473,7 +473,7 @@ const decodeNistFile = (buffer: Buffer): Result<NistFileInternal, NistDecodeErro
 
     if (recordTypeNumber === 1) {
       const detail = `NIST field 1.003 indicates two Type-1 records: ${inspect(type1Record[3], {
-        depth: Infinity
+        depth: Infinity,
       })}.`;
       return failure(
         nistDecodeError(

@@ -8,7 +8,7 @@ export interface Dimensions {
 export enum ResolutionUnits {
   NO_UNITS = 0,
   PIXELS_PER_INCH = 1,
-  PIXELS_PER_CM = 2
+  PIXELS_PER_CM = 2,
 }
 
 export interface Resolution {
@@ -34,7 +34,7 @@ const isJpegImage = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'JPEG data length is too small (less than 18 bytes).'
+      detail: 'JPEG data length is too small (less than 18 bytes).',
     });
   }
 
@@ -42,7 +42,7 @@ const isJpegImage = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'JPEG image does not start with a start marker (SOI) ff d8.'
+      detail: 'JPEG image does not start with a start marker (SOI) ff d8.',
     });
   }
 
@@ -50,7 +50,7 @@ const isJpegImage = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'JPEG image does not contain APP0 marker ff e0.'
+      detail: 'JPEG image does not contain APP0 marker ff e0.',
     });
   }
 
@@ -59,7 +59,7 @@ const isJpegImage = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: "JPEG image does not contain 'JFIF' identifier in APP0 segment."
+      detail: "JPEG image does not contain 'JFIF' identifier in APP0 segment.",
     });
   }
 
@@ -77,7 +77,7 @@ export const getJpegHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErro
   const resolution = {
     horizontal: data.readUInt16BE(offset + 12),
     units: data[offset + 11],
-    vertical: data.readUInt16BE(offset + 14)
+    vertical: data.readUInt16BE(offset + 14),
   };
 
   do {
@@ -85,7 +85,7 @@ export const getJpegHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErro
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: 'JPEG segment does not start with a marker 0xff.'
+        detail: 'JPEG segment does not start with a marker 0xff.',
       });
     }
     if (data[offset + 1] === 0xc0) {
@@ -94,13 +94,13 @@ export const getJpegHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErro
         return failure({
           category: 'VALIDATION',
           code: 'IMAGE_HEADER',
-          detail: `JPEG image seems to be truncated for SOF0 segment: ${offset} + 8 >= ${data.length}`
+          detail: `JPEG image seems to be truncated for SOF0 segment: ${offset} + 8 >= ${data.length}`,
         });
       }
       return success({
         dimensions: { height: data.readUInt16BE(offset + 5), width: data.readUInt16BE(offset + 7) },
         resolution,
-        type: 'JPEG'
+        type: 'JPEG',
       });
     }
 
@@ -109,7 +109,7 @@ export const getJpegHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErro
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: `JPEG segment contains segment length of 0 at offset ${offset}.`
+        detail: `JPEG segment contains segment length of 0 at offset ${offset}.`,
       });
     }
     offset += 2 + segmentLength; // Go to the next segment (skip segment marker as well).
@@ -118,7 +118,7 @@ export const getJpegHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErro
   return failure({
     category: 'VALIDATION',
     code: 'IMAGE_HEADER',
-    detail: 'JPEG image does not contain segment SOF0 with image dimensions.'
+    detail: 'JPEG image does not contain segment SOF0 with image dimensions.',
   });
 };
 
@@ -127,7 +127,7 @@ const isJpeg2000Image = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'JPEG2000 data length is too small (less than 8 bytes).'
+      detail: 'JPEG2000 data length is too small (less than 8 bytes).',
     });
   }
 
@@ -136,7 +136,7 @@ const isJpeg2000Image = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: "JPEG2000 image does not contain 'jP  ' signature."
+      detail: "JPEG2000 image does not contain 'jP  ' signature.",
     });
   }
 
@@ -156,7 +156,7 @@ export const getJpeg2000Header = (data: Buffer): Result<ImageHeader, ImageHeader
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: `JPEG2000 image seems to be truncated: ${offset} + 8 >= ${data.length}`
+        detail: `JPEG2000 image seems to be truncated: ${offset} + 8 >= ${data.length}`,
       });
     }
 
@@ -166,15 +166,15 @@ export const getJpeg2000Header = (data: Buffer): Result<ImageHeader, ImageHeader
         return failure({
           category: 'VALIDATION',
           code: 'IMAGE_HEADER',
-          detail: `JPEG2000 image seems to be truncated for header segment: ${offset} + 24 >= ${data.length}`
+          detail: `JPEG2000 image seems to be truncated for header segment: ${offset} + 24 >= ${data.length}`,
         });
       }
       return success({
         dimensions: {
           height: data.readUInt32BE(offset + 16),
-          width: data.readUInt32BE(offset + 20)
+          width: data.readUInt32BE(offset + 20),
         },
-        type: 'JPEG2000'
+        type: 'JPEG2000',
       });
     }
 
@@ -183,7 +183,7 @@ export const getJpeg2000Header = (data: Buffer): Result<ImageHeader, ImageHeader
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: `JPEG2000 segment contains segment length of 0 at offset ${offset}.`
+        detail: `JPEG2000 segment contains segment length of 0 at offset ${offset}.`,
       });
     }
     offset += segmentLength; // Go to the next segment.
@@ -192,7 +192,7 @@ export const getJpeg2000Header = (data: Buffer): Result<ImageHeader, ImageHeader
   return failure({
     category: 'VALIDATION',
     code: 'IMAGE_HEADER',
-    detail: 'JPEG2000 image does not contain header segment with image dimensions.'
+    detail: 'JPEG2000 image does not contain header segment with image dimensions.',
   });
 };
 
@@ -201,7 +201,7 @@ const isWsqImage = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'WSQ data length is too small (less than 14 bytes).'
+      detail: 'WSQ data length is too small (less than 14 bytes).',
     });
   }
 
@@ -209,7 +209,7 @@ const isWsqImage = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'WSQ image does not start with a start marker (SOI) ff a0.'
+      detail: 'WSQ image does not start with a start marker (SOI) ff a0.',
     });
   }
 
@@ -217,7 +217,7 @@ const isWsqImage = (data: Buffer): Result<void, ImageHeaderError> => {
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'WSQ image does not end with an end marker (EOI) ff a1.'
+      detail: 'WSQ image does not end with an end marker (EOI) ff a1.',
     });
   }
 
@@ -230,12 +230,12 @@ const parseComments = (input: string): Result<Map<string, string>, ImageHeaderEr
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'WSQ comment segment does not contain any attributes.'
+      detail: 'WSQ comment segment does not contain any attributes.',
     });
   }
 
   const map = new Map<string, string>();
-  pairs.forEach(pair => {
+  pairs.forEach((pair) => {
     const keyValue = pair.split(' ');
     if (keyValue.length === 2) {
       map.set(keyValue[0], keyValue[1]);
@@ -261,7 +261,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: 'WSQ segment does not start with a marker 0xff.'
+        detail: 'WSQ segment does not start with a marker 0xff.',
       });
     }
     if (data[offset + 1] === 0xa2) {
@@ -270,7 +270,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
         return failure({
           category: 'VALIDATION',
           code: 'IMAGE_HEADER',
-          detail: `WSQ image seems to be truncated for SOF segment: ${offset} + 10 >= ${data.length}`
+          detail: `WSQ image seems to be truncated for SOF segment: ${offset} + 10 >= ${data.length}`,
         });
       }
 
@@ -283,7 +283,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
         return failure({
           category: 'VALIDATION',
           code: 'IMAGE_HEADER',
-          detail: `WSQ image seems to be truncated for COM segment: ${offset} + 11 >= ${data.length}`
+          detail: `WSQ image seems to be truncated for COM segment: ${offset} + 11 >= ${data.length}`,
         });
       }
 
@@ -296,7 +296,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
           return failure({
             category: 'VALIDATION',
             code: 'IMAGE_HEADER',
-            detail: "WSQ comment segment does not contain 'NIST_COM' attribute."
+            detail: "WSQ comment segment does not contain 'NIST_COM' attribute.",
           });
         }
 
@@ -306,7 +306,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
             return failure({
               category: 'VALIDATION',
               code: 'IMAGE_HEADER',
-              detail: "WSQ comment segment contains non-numeric 'PPI' attribute."
+              detail: "WSQ comment segment contains non-numeric 'PPI' attribute.",
             });
           }
 
@@ -327,7 +327,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: `WSQ segment contains segment length of 0 at offset ${offset}.`
+        detail: `WSQ segment contains segment length of 0 at offset ${offset}.`,
       });
     }
     offset += 2 + segmentLength; // Go to the next segment (skip segment marker as well).
@@ -337,7 +337,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
     return failure({
       category: 'VALIDATION',
       code: 'IMAGE_HEADER',
-      detail: 'WSQ image does not contain segment SOF with image dimensions.'
+      detail: 'WSQ image does not contain segment SOF with image dimensions.',
     });
   }
 
@@ -374,6 +374,6 @@ export const getImageHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErr
   return failure({
     category: 'VALIDATION',
     code: 'IMAGE_HEADER',
-    detail: 'Unable to determine image type.'
+    detail: 'Unable to determine image type.',
   });
 };

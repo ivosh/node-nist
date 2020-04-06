@@ -23,7 +23,7 @@ describe('positive test:', () => {
     expect(result.tag).toEqual('success');
     expect((result as Success<DecodeGenericRecordResult>).value).toEqual({
       record: { 1: '8' },
-      recordLength: 8
+      recordLength: 8,
     });
   });
 
@@ -31,14 +31,14 @@ describe('positive test:', () => {
     const buffer = Buffer.concat([
       Buffer.from([0, 1, 2, 3, 4]),
       Buffer.from('1.001:8'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = decodeGenericNistRecord(buffer, 1, 1, 5, buffer.length - 1);
 
     expect(result.tag).toEqual('success');
     expect((result as Success<DecodeGenericRecordResult>).value).toEqual({
       record: { 1: '8' },
-      recordLength: 8
+      recordLength: 8,
     });
   });
 
@@ -53,7 +53,7 @@ describe('positive test:', () => {
       Buffer.from('2'),
       Buffer.from([31]),
       Buffer.from('00'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = decodeGenericNistRecord(buffer, 1, 1, 0, buffer.length - 1);
 
@@ -63,10 +63,10 @@ describe('positive test:', () => {
         1: '24',
         3: [
           ['1', '1'],
-          ['2', '00']
-        ]
+          ['2', '00'],
+        ],
       },
-      recordLength: 24
+      recordLength: 24,
     });
   });
 
@@ -77,14 +77,14 @@ describe('positive test:', () => {
       Buffer.from('1.003:1'),
       Buffer.from([31]),
       Buffer.from('1'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = decodeGenericNistRecord(buffer, 1, 1, 0, buffer.length - 1);
 
     expect(result.tag).toEqual('success');
     expect((result as Success<DecodeGenericRecordResult>).value).toEqual({
       record: { 1: '19', 3: [['1', '1']] },
-      recordLength: 19
+      recordLength: 19,
     });
   });
 
@@ -95,14 +95,14 @@ describe('positive test:', () => {
       Buffer.from('1.068:CAN1'),
       Buffer.from([30]),
       Buffer.from('CAN2'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = decodeGenericNistRecord(buffer, 1, 1, 0, buffer.length - 1);
 
     expect(result.tag).toEqual('success');
     expect((result as Success<DecodeGenericRecordResult>).value).toEqual({
       record: { 1: '25', 68: ['CAN1', 'CAN2'] },
-      recordLength: 25
+      recordLength: 25,
     });
   });
 
@@ -143,7 +143,7 @@ describe('positive test:', () => {
       Buffer.from('2.005:Doe'),
       Buffer.from([29]),
       Buffer.from('2.007:1978-05-12'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -154,7 +154,7 @@ describe('positive test:', () => {
         2: '0502',
         3: [
           ['1', '1'],
-          ['2', '00']
+          ['2', '00'],
         ],
         4: 'CRM',
         5: '20190717',
@@ -162,15 +162,15 @@ describe('positive test:', () => {
         8: 'ORI38574354',
         9: 'TCN2487S054',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         1: '56',
         2: '00',
         4: 'John',
         5: 'Doe',
-        7: '1978-05-12'
-      }
+        7: '1978-05-12',
+      },
     });
 
     // Providing no value for decode options should work as well.
@@ -223,7 +223,7 @@ describe('positive test:', () => {
       Buffer.from([0, 0, 38, 211, 1, 0, 7, 255, 255, 255, 255, 255, 0, 1, 244, 2, 238, 1]),
       fp1,
       Buffer.from([0, 0, 39, 170, 2, 0, 2, 255, 255, 255, 255, 255, 0, 1, 244, 2, 238, 1]),
-      fp2
+      fp2,
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -236,7 +236,7 @@ describe('positive test:', () => {
           ['1', '3'],
           ['2', '00'],
           ['4', '01'],
-          ['4', '02']
+          ['4', '02'],
         ],
         4: 'IDN',
         5: '20190722',
@@ -244,17 +244,17 @@ describe('positive test:', () => {
         8: 'MID00001',
         9: 'MBI20190722093422-IDE-00040',
         11: '19.69',
-        12: '19.69'
+        12: '19.69',
       },
       2: {
         1: '33',
         2: '00',
-        901: 'MID00001'
+        901: 'MID00001',
       },
       4: [
         { 1: '9939', 2: '1', 3: '0', 4: ['7'], 5: '0', 6: '500', 7: '750', 8: '1', 9: fp1 },
-        { 1: '10154', 2: '2', 3: '0', 4: ['2'], 5: '0', 6: '500', 7: '750', 8: '1', 9: fp2 }
-      ]
+        { 1: '10154', 2: '2', 3: '0', 4: ['2'], 5: '0', 6: '500', 7: '750', 8: '1', 9: fp2 },
+      ],
     });
   });
 
@@ -269,9 +269,9 @@ describe('positive test:', () => {
         9: 'TCN-123343-1',
         10: 'TCN-123343',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
-      2: { 34: 'N' }
+      2: { 34: 'N' },
     };
     const buffer = nistEncode(nistOriginal, {});
     expect(buffer.tag).toEqual('success');
@@ -285,7 +285,7 @@ describe('positive test:', () => {
         2: '0502',
         3: [
           ['1', '1'],
-          ['2', '00']
+          ['2', '00'],
         ],
         4: 'SRE',
         5: '20191021',
@@ -294,14 +294,14 @@ describe('positive test:', () => {
         9: 'TCN-123343-1',
         10: 'TCN-123343',
         11: '00.00',
-        12: '00.00'
+        12: '00.00',
       },
       2: {
         1: '26',
         2: '00',
         23: 'sorry',
-        34: 'N'
-      }
+        34: 'N',
+      },
     });
   });
 
@@ -317,7 +317,7 @@ describe('positive test:', () => {
         3: [
           ['1', '02'],
           ['2', '00'],
-          ['10', '01']
+          ['10', '01'],
         ],
         4: 'SRE',
         5: '20191023',
@@ -328,14 +328,14 @@ describe('positive test:', () => {
         10: 'MBI-20191023T125406.934-QS',
         11: '00.00',
         12: '00.00',
-        14: '20191023125411Z'
+        14: '20191023125411Z',
       },
       2: {
         1: '64',
         2: '00',
         59: 'I',
         64: [['784336970', 'CRIMINAL']],
-        550: 'CABIS'
+        550: 'CABIS',
       },
       10: [
         {
@@ -352,9 +352,9 @@ describe('positive test:', () => {
           12: 'YCC',
           20: 'F',
           39: '784336970',
-          999: expect.any(Buffer)
-        }
-      ]
+          999: expect.any(Buffer),
+        },
+      ],
     });
     if (nistFile[10]) {
       expect(nistFile[10][0][999]).toHaveLength(4025 - 157);
@@ -390,7 +390,7 @@ describe('negative test:', () => {
       Buffer.from([0, 1, 2, 3, 4]),
       Buffer.from('1.001 8'),
       Buffer.from([28]),
-      Buffer.from([13, 14, 15])
+      Buffer.from([13, 14, 15]),
     ]);
     const result = decodeGenericNistRecord(buffer, 1, 1, 5, 12);
 
@@ -450,7 +450,7 @@ describe('negative test:', () => {
       Buffer.from('1.001:19'),
       Buffer.from([29]),
       Buffer.from('2.064:<=>'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = decodeGenericNistRecord(buffer, 1, 1, 0, buffer.length - 1);
 
@@ -499,7 +499,7 @@ describe('negative test:', () => {
       Buffer.from('1.001:17'),
       Buffer.from([29]),
       Buffer.from('1.003:0'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -519,7 +519,7 @@ describe('negative test:', () => {
       Buffer.from('1'),
       Buffer.from([30]),
       Buffer.from('1'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -541,7 +541,7 @@ describe('negative test:', () => {
       Buffer.from('<'),
       Buffer.from([31]),
       Buffer.from('00'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -563,7 +563,7 @@ describe('negative test:', () => {
       Buffer.from('1'),
       Buffer.from([31]),
       Buffer.from('00'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -593,7 +593,7 @@ describe('negative test:', () => {
       Buffer.from('2.001:8'),
       Buffer.from([28]),
       Buffer.from('2.001:8'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -615,7 +615,7 @@ describe('negative test:', () => {
       Buffer.from('99'),
       Buffer.from([31]),
       Buffer.from('00'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -638,7 +638,7 @@ describe('negative test:', () => {
       Buffer.from([31]),
       Buffer.from('00'),
       Buffer.from([28]),
-      Buffer.from('2.001:7')
+      Buffer.from('2.001:7'),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -661,7 +661,7 @@ describe('negative test:', () => {
       Buffer.from([31]),
       Buffer.from('00'),
       Buffer.from([28]),
-      Buffer.from([1, 2, 3])
+      Buffer.from([1, 2, 3]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -684,7 +684,7 @@ describe('negative test:', () => {
       Buffer.from([31]),
       Buffer.from('00'),
       Buffer.from([28]),
-      Buffer.from([0, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+      Buffer.from([0, 0, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -702,7 +702,7 @@ describe('negative test:', () => {
       Buffer.from('1.003:1'),
       Buffer.from([31]),
       Buffer.from('1'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -750,7 +750,7 @@ describe('negative test:', () => {
       Buffer.from('2.005:Doe'),
       Buffer.from([29]),
       Buffer.from('2.007:1978-05-12'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 
@@ -774,7 +774,7 @@ describe('negative test:', () => {
       Buffer.from('00'),
       Buffer.from([28]),
       Buffer.from('2.003:A'),
-      Buffer.from([28])
+      Buffer.from([28]),
     ]);
     const result = nistDecode(buffer, nistDecodeOptions);
 

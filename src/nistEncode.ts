@@ -9,7 +9,7 @@ import {
   NistInformationItem,
   NistRecordCodecOptions,
   NistSubfield,
-  NistType4Record
+  NistType4Record,
 } from './index';
 import { NistEncodeError, NistValidationError } from './nistError';
 import {
@@ -20,7 +20,7 @@ import {
   SEPARATOR_FILE,
   SEPARATOR_GROUP,
   SEPARATOR_RECORD,
-  SEPARATOR_UNIT
+  SEPARATOR_UNIT,
 } from './nistUtils';
 import { check7bitAscii, nistValidation } from './nistValidation';
 import {
@@ -29,7 +29,7 @@ import {
   NistRecordVisitorFn,
   shallowCopyNistFile,
   visitNistFile,
-  visitNistRecord
+  visitNistRecord,
 } from './nistVisitor';
 import { failure, Result, success } from './result';
 
@@ -64,7 +64,7 @@ const formatNistField: NistFieldVisitorFn<void, NistFieldEncodeOptions> = (
 
 const invokeFormatters = ({
   nist,
-  options
+  options,
 }: {
   nist: NistFile;
   options: NistEncodeOptions;
@@ -73,7 +73,7 @@ const invokeFormatters = ({
     fieldVisitor: { fn: formatNistField, data: undefined },
     nist,
     options: options && options.codecOptions,
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
 
   return success(undefined);
@@ -85,7 +85,7 @@ const determineCharset = ({ nist }: { nist: NistFile }): Result<void, NistValida
   const result = visitNistFile<void, NistFieldEncodeOptions, NistRecordEncodeOptions>({
     fieldVisitor: { fn: check7bitAscii, data: undefined },
     nist,
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
   if (result.tag === 'failure') {
     /*
@@ -155,7 +155,7 @@ const computeFieldLength = (field: NistField): number => {
 
 const assignFieldLength: NistFieldVisitorFn<LengthTracking, NistFieldEncodeOptions> = ({
   field,
-  data
+  data,
 }): NistFieldVisitorFnReturn => {
   data.recordLength += computeFieldLength(field);
   return success(undefined);
@@ -179,7 +179,7 @@ const assignRecordLength: NistRecordVisitorFn<LengthTracking, NistFieldEncodeOpt
       record,
       recordNumber,
       recordTypeNumber,
-      visitorStrategy
+      visitorStrategy,
     });
     if (result.tag === 'failure') {
       return result;
@@ -189,7 +189,7 @@ const assignRecordLength: NistRecordVisitorFn<LengthTracking, NistFieldEncodeOpt
     const partialRecordLength = data.recordLength;
     const lengthOfRecordLength = computeFieldLength({
       key: { type: recordTypeNumber, record: recordNumber, field: 1 },
-      value: String(partialRecordLength)
+      value: String(partialRecordLength),
     });
     recordLength = lengthOfRecordLength + partialRecordLength;
     if (Buffer.byteLength(String(recordLength)) > Buffer.byteLength(String(partialRecordLength))) {
@@ -208,7 +208,7 @@ const assignRecordLength: NistRecordVisitorFn<LengthTracking, NistFieldEncodeOpt
 };
 
 const computeAutomaticFields = ({
-  nist
+  nist,
 }: {
   nist: NistFile;
 }): Result<number, NistValidationError> => {
@@ -217,7 +217,7 @@ const computeAutomaticFields = ({
   let result = visitNistFile<IdcTracking, NistFieldEncodeOptions, NistRecordEncodeOptions>({
     nist,
     recordVisitor: { fn: assignIDC, data: tracking },
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
   if (result.tag === 'failure') {
     return result;
@@ -231,7 +231,7 @@ const computeAutomaticFields = ({
   result = visitNistFile<LengthTracking, NistFieldEncodeOptions, NistRecordEncodeOptions>({
     nist,
     recordVisitor: { fn: assignRecordLength, data: lengthTracking },
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
   if (result.tag === 'failure') {
     return result;
@@ -258,7 +258,7 @@ const toNumber = (
       nistValidationError(`Missing value for ${formatFieldKey(recordTypeNumber, fieldNumber)}`, {
         field: fieldNumber,
         record: recordNumber,
-        type: recordTypeNumber
+        type: recordTypeNumber,
       })
     );
   }
@@ -375,7 +375,7 @@ const encodeNistSubfield = (subfield: NistSubfield, data: EncodeTracking): void 
 
 const encodeNistField: NistFieldVisitorFn<EncodeTracking, NistFieldEncodeOptions> = ({
   field,
-  data
+  data,
 }): NistFieldVisitorFnReturn => {
   data.offset += data.buf.write(formatFieldKey(field.key.type, field.key.field), data.offset);
   data.offset = data.buf.writeUInt8(SEPARATOR_FIELD_NUMBER, data.offset);
@@ -415,7 +415,7 @@ const encodeNistRecord: NistRecordVisitorFn<EncodeTracking, NistFieldEncodeOptio
 
 const encodeNistFile = ({
   nist,
-  buf
+  buf,
 }: {
   nist: NistFile;
   buf: Buffer;
@@ -425,7 +425,7 @@ const encodeNistFile = ({
     fieldVisitor: { fn: encodeNistField, data: encodeTracking },
     nist,
     recordVisitor: { fn: encodeNistRecord, data: encodeTracking },
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
 };
 

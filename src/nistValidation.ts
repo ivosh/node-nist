@@ -4,14 +4,14 @@ import {
   NistFile,
   NistFileCodecOptions,
   NistInformationItem,
-  NistRecordCodecOptions
+  NistRecordCodecOptions,
 } from './index';
 import { formatFieldKey, nistValidationError } from './nistUtils';
 import {
   NistFieldVisitorFn,
   NistFieldVisitorFnReturn,
   visitNistFile,
-  visitNistRecord
+  visitNistRecord,
 } from './nistVisitor';
 import { match, success } from './result';
 
@@ -107,9 +107,9 @@ export const check7bitAscii: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
   const { field } = params;
   return match(
     Array.isArray(field.value)
-      ? field.value.every(subfield =>
+      ? field.value.every((subfield) =>
           Array.isArray(subfield)
-            ? subfield.every(input => is7bitAscii(input))
+            ? subfield.every((input) => is7bitAscii(input))
             : is7bitAscii(subfield)
         )
       : is7bitAscii(field.value),
@@ -122,7 +122,7 @@ export const check7bitAscii: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
 };
 
 const checkForbiddenRecordLengthField: NistFieldVisitorFn<void, NistFieldCodecOptions> = ({
-  field
+  field,
 }): NistFieldVisitorFnReturn => {
   return match(
     field.key.field !== 1,
@@ -135,7 +135,7 @@ const checkForbiddenRecordLengthField: NistFieldVisitorFn<void, NistFieldCodecOp
 };
 
 const checkForbiddenIdcField: NistFieldVisitorFn<void, NistFieldCodecOptions> = ({
-  field
+  field,
 }): NistFieldVisitorFnReturn => {
   return match(
     field.key.field !== 2 || field.key.type === 1,
@@ -161,7 +161,7 @@ export const nistValidation = <
     fieldVisitor: { fn: checkMandatory, data: undefined },
     nist,
     options: options && options.codecOptions,
-    visitorStrategy: { visitMissingFields: true }
+    visitorStrategy: { visitMissingFields: true },
   });
   if (result.tag === 'failure' && !options.ignoreMissingMandatoryFields) {
     return result;
@@ -172,7 +172,7 @@ export const nistValidation = <
     fieldVisitor: { fn: checkMaxLength, data: undefined },
     nist,
     options: options && options.codecOptions,
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
   if (result.tag === 'failure' && !options.ignoreValidationChecks) {
     return result;
@@ -183,7 +183,7 @@ export const nistValidation = <
     fieldVisitor: { fn: checkMinLength, data: undefined },
     nist,
     options: options && options.codecOptions,
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
   if (result.tag === 'failure' && !options.ignoreValidationChecks) {
     return result;
@@ -194,7 +194,7 @@ export const nistValidation = <
     fieldVisitor: { fn: checkRegexs, data: undefined },
     nist,
     options: options && options.codecOptions,
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
   if (result.tag === 'failure' && !options.ignoreValidationChecks) {
     return result;
@@ -211,7 +211,7 @@ export const nistValidation = <
     record: nist[1],
     recordNumber: 1,
     recordTypeNumber: 1,
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
   if (result.tag === 'failure' && !options.ignoreValidationChecks) {
     return result;
@@ -223,7 +223,7 @@ export const nistValidation = <
       fieldVisitor: { fn: checkForbiddenRecordLengthField, data: undefined },
       nist,
       options: options && options.codecOptions,
-      visitorStrategy: {}
+      visitorStrategy: {},
     });
     if (result.tag === 'failure') {
       return result; // Forbidden LEN fields must not be provided; no override.
@@ -236,7 +236,7 @@ export const nistValidation = <
       fieldVisitor: { fn: checkForbiddenIdcField, data: undefined },
       nist,
       options: options && options.codecOptions,
-      visitorStrategy: {}
+      visitorStrategy: {},
     });
     if (result.tag === 'failure') {
       return result; // Forbidden IDC fields must not be provided; no override.

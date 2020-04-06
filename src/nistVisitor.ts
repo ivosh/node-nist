@@ -9,14 +9,14 @@ import {
   NistFile,
   NistFileCodecOptions,
   NistRecord,
-  NistRecordCodecOptions
+  NistRecordCodecOptions,
 } from './index';
 import { NistValidationError } from './nistError';
 import {
   formatFieldKey,
   NistFileInternal,
   nistRecordTypeNumbers,
-  nistValidationError
+  nistValidationError,
 } from './nistUtils';
 import { failure, Result, success } from './result';
 
@@ -62,7 +62,7 @@ const visitNistField = <D, T extends NistFieldCodecOptions>(
     data: fieldVisitor.data,
     field,
     nist: (nist as unknown) as NistFile,
-    options
+    options,
   });
 
   if (result.tag === 'success' && result.value) {
@@ -97,7 +97,7 @@ export const visitNistRecord = <D, T extends NistFieldCodecOptions>({
   recordNumber,
   visitorStrategy,
   options,
-  fieldVisitor
+  fieldVisitor,
 }: NistRecordVisitorParams<D, T>): Result<void, NistValidationError> => {
   let summaryResult: Result<void, NistValidationError> = success(undefined); // assume success
 
@@ -137,7 +137,7 @@ export const visitNistRecord = <D, T extends NistFieldCodecOptions>({
       nist: (nist as unknown) as NistFileInternal,
       options: options && options[fieldNumber],
       record,
-      value
+      value,
     });
     if (result.tag === 'failure') {
       if (visitorStrategy.noStopOnErrors) {
@@ -167,7 +167,7 @@ const visitNistRecords = <D, T extends NistFieldCodecOptions>({
   options,
   visitorStrategy,
   recordVisitor,
-  fieldVisitor
+  fieldVisitor,
 }: VisitNistRecordsParams<D, T>): Result<void, NistValidationError> => {
   let summaryResult: Result<void, NistValidationError> = success(undefined); // assume success
 
@@ -181,7 +181,7 @@ const visitNistRecords = <D, T extends NistFieldCodecOptions>({
         record,
         recordNumber,
         recordTypeNumber,
-        visitorStrategy
+        visitorStrategy,
       });
       if (result.tag === 'failure') {
         if (visitorStrategy.noStopOnErrors) {
@@ -201,7 +201,7 @@ const visitNistRecords = <D, T extends NistFieldCodecOptions>({
     record: records,
     recordNumber: 1,
     recordTypeNumber,
-    visitorStrategy
+    visitorStrategy,
   });
 };
 
@@ -227,7 +227,7 @@ export const visitNistFile = <
   visitorStrategy,
   options,
   recordVisitor = { fn: visitNistRecord, data: (undefined as unknown) as D },
-  fieldVisitor = { fn: () => success(undefined), data: (undefined as unknown) as D }
+  fieldVisitor = { fn: () => success(undefined), data: (undefined as unknown) as D },
 }: VisitNistFileParams<D, T, U>): Result<void, NistValidationError> => {
   const nistFile = (nist as unknown) as NistFileInternal;
   let summaryResult: Result<void, NistValidationError> = success(undefined); // assume success
@@ -243,7 +243,7 @@ export const visitNistFile = <
         recordTypeNumber,
         recordVisitor,
         records: nistFile[recordTypeNumber],
-        visitorStrategy
+        visitorStrategy,
       });
       if (result.tag === 'failure') {
         if (visitorStrategy.noStopOnErrors) {
@@ -292,7 +292,7 @@ export const shallowCopyNistFile = (nist: NistFile): NistFile => {
   visitNistFile({
     fieldVisitor: { fn: shallowCopyNistFieldValue, data: copy },
     nist,
-    visitorStrategy: {}
+    visitorStrategy: {},
   });
 
   return (copy as unknown) as NistFile;
