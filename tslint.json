@@ -8,7 +8,7 @@
     "interface-name": false,
     "max-line-length": false,
     "object-shorthand-properties-first": false,
-    "ter-arrow-parens": [true, "as-needed", { "requireForBlockBody": false }],
+    "ter-arrow-parens": [true, "always", { "requireForBlockBody": false }],
     "trailing-comma": false
   },
   "rulesDirectory": []
