@@ -728,6 +728,8 @@ describe('negative test:', () => {
   });
 
   it('Type-4 - size over internal limit', () => {
+    const binaryData = generateBinaryData(1 * 1024 * 1024 * 1024);
+
     const nist: NistFile = {
       1: {
         2: '0502',
@@ -746,7 +748,22 @@ describe('negative test:', () => {
         {
           3: '0', // flat finger
           4: ['7'], // left index finger
-          9: generateBinaryData(1 * 1024 * 1024 * 1024),
+          9: binaryData,
+        },
+        {
+          3: '0', // flat finger
+          4: ['8'], // left middle finger
+          9: binaryData,
+        },
+        {
+          3: '0', // flat finger
+          4: ['9'], // left ring finger
+          9: binaryData,
+        },
+        {
+          3: '0', // flat finger
+          4: ['10'], // left little finger
+          9: binaryData,
         },
       ],
     };
