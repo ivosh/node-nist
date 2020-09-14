@@ -57,9 +57,11 @@ export const provideDefaults = ({
   codecOptions,
 }: {
   nist: NistFile;
-  codecOptions: NistFileCodecOptions<{}, {}> | undefined;
+  codecOptions:
+    | NistFileCodecOptions<NistFieldCodecOptions, NistRecordCodecOptions<NistFieldCodecOptions>>
+    | undefined;
 }): Result<void, NistValidationError> => {
-  visitNistFile<void, NistFieldCodecOptions, NistRecordCodecOptions<{}>>({
+  visitNistFile<void, NistFieldCodecOptions, NistRecordCodecOptions<NistFieldCodecOptions>>({
     fieldVisitor: { fn: defaultValueForNistField, data: undefined },
     nist,
     options: codecOptions,

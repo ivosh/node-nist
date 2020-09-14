@@ -15,7 +15,7 @@ export interface Success<T> {
  */
 export type Result<T, E> = Success<T> | Failure<E>;
 
-export const success = <T, E>(value: T): Success<T> => ({
+export const success = <T>(value: T): Success<T> => ({
   tag: 'success',
   value,
 });
