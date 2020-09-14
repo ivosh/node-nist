@@ -1,7 +1,7 @@
 /* Customizable NIST file encoding and validation rules.
  * Used for encoding a NistFile into a Buffer.
  * For test purposes only. */
-import { NistEncodeOptions, NistField, NistFile } from './index';
+import { NistEncodeOptions, NistField, NistFieldValue, NistFile } from './index';
 
 // :TODO: check for resolution of Type-14 if present
 const getFingerprintResolution = (nist: NistFile): string => (nist[4] ? '19.69' : '00.00');
@@ -30,7 +30,8 @@ export const nistEncodeOptions: NistEncodeOptions = {
           regexs: [{ regex: '^[IN]$', errMsg: 'Expected I or N' }],
         },
         64 /* can */: {
-          mandatory: (field, nist) => (nist[2] && nist[2][59] && nist[2][59] === 'I') || false,
+          mandatory: (field: NistField, nist: NistFile): boolean =>
+            (nist[2] && nist[2][59] && nist[2][59] === 'I') || false,
         },
       },
     },
@@ -38,7 +39,7 @@ export const nistEncodeOptions: NistEncodeOptions = {
       1: {
         2 /* ver */: {
           defaultValue: '0502', // conforming to ANSI/NIST-ITL 1-2011 edition 3 update 2015
-          formatter: (field: NistField) => String(field.value).padStart(4, '0'),
+          formatter: (field: NistField): string => String(field.value).padStart(4, '0'),
           mandatory: true,
           maxLength: 4,
           minLength: 3,
@@ -69,12 +70,14 @@ export const nistEncodeOptions: NistEncodeOptions = {
           mandatory: false,
         },
         11 /* nsr */: {
-          defaultValue: (field: NistField, nist: NistFile) => getFingerprintResolution(nist),
+          defaultValue: (field: NistField, nist: NistFile): NistFieldValue =>
+            getFingerprintResolution(nist),
           mandatory: true,
           regexs: [{ regex: '^[0-9]{2}.[0-9]{2}$', errMsg: 'Expected a string in format dd.dd' }],
         },
         12 /* ntr */: {
-          defaultValue: (field: NistField, nist: NistFile) => getFingerprintResolution(nist),
+          defaultValue: (field: NistField, nist: NistFile): NistFieldValue =>
+            getFingerprintResolution(nist),
           mandatory: true,
           regexs: [{ regex: '^[0-9]{2}.[0-9]{2}$', errMsg: 'Expected a string in format dd.dd' }],
         },
@@ -91,11 +94,11 @@ export const nistEncodeOptions: NistEncodeOptions = {
           mandatory: true,
         },
         6 /* hll */: {
-          defaultValue: () => getHorizontalScanningLine(),
+          defaultValue: (): NistFieldValue => getHorizontalScanningLine(),
           mandatory: true,
         },
         7 /* vll */: {
-          defaultValue: () => getVerticalScanningLine(),
+          defaultValue: (): NistFieldValue => getVerticalScanningLine(),
           mandatory: true,
         },
         8 /* cga */: {
