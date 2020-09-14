@@ -1,4 +1,3 @@
-import buffer from 'buffer';
 import {
   NistCodecOptions,
   NistField,
