@@ -13,6 +13,7 @@ import { Result } from './result';
  * - All Type-1 fields must be 7-bit ASCII.
  * - Only UTF-8 is supported for other record types.
  * - Only one Friction ridge generalized position (FGP, 4.004) is supported per one Type-4 record.
+ * - Limit of the encoded NIST file length is 1 GB.
  */
 
 export type NistInformationItem = string | Buffer | undefined;

@@ -746,7 +746,7 @@ describe('negative test:', () => {
         {
           3: '0', // flat finger
           4: ['7'], // left index finger
-          9: generateBinaryData(2 * 1024 * 1024 * 1024 - 1),
+          9: generateBinaryData(1 * 1024 * 1024 * 1024),
         },
       ],
     };

@@ -482,13 +482,11 @@ export const nistEncode = (
   const { nist: nistPopulated, totalLength } = result2.value;
 
   // 3. allocate buf
-  let buf;
-  try {
-    buf = Buffer.allocUnsafe(totalLength);
-  } catch (cause) {
-    const detail = `Cannot allocate buffer of ${totalLength} bytes: limit is ${buffer.constants.MAX_LENGTH} bytes.`;
-    return failure({ category: 'NIST', code: 'NIST_ENCODE_ERROR', detail, cause });
+  if (totalLength > 1_073_741_824) {
+    const detail = `Computed length of the encoded NIST file is ${totalLength} bytes; however limit is ${1_073_741_824} bytes.`;
+    return failure({ category: 'NIST', code: 'NIST_ENCODE_ERROR', detail });
   }
+  const buf = Buffer.allocUnsafe(totalLength);
 
   // 4. encode all fields into the buf (including arrays of subfields)
   const result3 = encodeNistFile({ nist: nistPopulated, buf });

@@ -241,9 +241,8 @@ Object {
 exports[`negative test: Type-4 - size over internal limit 1`] = `
 Object {
   "category": "NIST",
-  "cause": [RangeError: The value "2147483863" is invalid for option "size"],
   "code": "NIST_ENCODE_ERROR",
-  "detail": "Cannot allocate buffer of 2147483863 bytes: limit is 2147483647 bytes.",
+  "detail": "Computed length of the encoded NIST file is 1073742040 bytes; however limit is 1073741824 bytes.",
 }
 `;
 
