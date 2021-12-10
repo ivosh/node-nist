@@ -419,7 +419,7 @@ const decodeNistFile = (buffer: Buffer): Result<NistFileInternal, NistDecodeErro
   if (type1RecordResult.tag === 'failure') {
     return type1RecordResult;
   }
-  const type1Record = (type1RecordResult.value.record as unknown) as NistType1Record;
+  const type1Record = type1RecordResult.value.record as unknown as NistType1Record;
 
   if (!type1Record[3]) {
     const detail = `NIST field 1.003 (CNT) was not found between offsets [${offset}, ${endOffset}].`;
@@ -539,7 +539,7 @@ export const nistDecode = (
   if (nistFileInternal.tag === 'failure') {
     return nistFileInternal;
   }
-  const nistFile = (nistFileInternal.value as unknown) as NistFile;
+  const nistFile = nistFileInternal.value as unknown as NistFile;
 
   // 2. Validate the decoded object.
   const result = nistValidation(nistFile, { ...options, checkForbiddenFields: false });

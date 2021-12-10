@@ -485,9 +485,9 @@ export const nistEncode = (
   let buf;
   try {
     buf = Buffer.allocUnsafe(totalLength);
-  } catch (cause) {
+  } catch (cause: unknown) {
     const detail = `Cannot allocate buffer of ${totalLength} bytes: limit is ${buffer.constants.MAX_LENGTH} bytes.`;
-    return failure({ category: 'NIST', code: 'NIST_ENCODE_ERROR', detail, cause });
+    return failure({ category: 'NIST', code: 'NIST_ENCODE_ERROR', detail, cause: cause as Error });
   }
 
   // 4. encode all fields into the buf (including arrays of subfields)

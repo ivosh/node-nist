@@ -61,7 +61,7 @@ const visitNistField = <D, T extends NistFieldCodecOptions>(
   const result = fieldVisitor.fn({
     data: fieldVisitor.data,
     field,
-    nist: (nist as unknown) as NistFile,
+    nist: nist as unknown as NistFile,
     options,
   });
 
@@ -134,7 +134,7 @@ export const visitNistRecord = <D, T extends NistFieldCodecOptions>({
     const result = visitNistField({
       fieldVisitor,
       key: { type: recordTypeNumber, record: recordNumber, field: fieldNumber },
-      nist: (nist as unknown) as NistFileInternal,
+      nist: nist as unknown as NistFileInternal,
       options: options && options[fieldNumber],
       record,
       value,
@@ -176,7 +176,7 @@ const visitNistRecords = <D, T extends NistFieldCodecOptions>({
       const result = recordVisitor.fn({
         data: recordVisitor.data,
         fieldVisitor,
-        nist: (nist as unknown) as NistFile,
+        nist: nist as unknown as NistFile,
         options,
         record,
         recordNumber,
@@ -196,7 +196,7 @@ const visitNistRecords = <D, T extends NistFieldCodecOptions>({
   return recordVisitor.fn({
     data: recordVisitor.data,
     fieldVisitor,
-    nist: (nist as unknown) as NistFile,
+    nist: nist as unknown as NistFile,
     options,
     record: records,
     recordNumber: 1,
@@ -226,10 +226,10 @@ export const visitNistFile = <
   nist,
   visitorStrategy,
   options,
-  recordVisitor = { fn: visitNistRecord, data: (undefined as unknown) as D },
-  fieldVisitor = { fn: () => success(undefined), data: (undefined as unknown) as D },
+  recordVisitor = { fn: visitNistRecord, data: undefined as unknown as D },
+  fieldVisitor = { fn: () => success(undefined), data: undefined as unknown as D },
 }: VisitNistFileParams<D, T, U>): Result<void, NistValidationError> => {
-  const nistFile = (nist as unknown) as NistFileInternal;
+  const nistFile = nist as unknown as NistFileInternal;
   let summaryResult: Result<void, NistValidationError> = success(undefined); // assume success
 
   const perTotOptions = options && R.mergeDeepRight(options.default, options[nist[1][4]] || {});
@@ -264,7 +264,7 @@ const shallowCopyNistFieldValue: NistFieldVisitorFn<NistFileInternal, NistFieldC
   params
 ): NistFieldVisitorFnReturn => {
   const { nist, field, data: nistFileCopy } = params;
-  const nistFile = (nist as unknown) as NistFileInternal;
+  const nistFile = nist as unknown as NistFileInternal;
   const { type: typeNumber, record: recordNumber, field: fieldNumber } = field.key;
 
   if (!nistFileCopy[typeNumber]) {
@@ -295,5 +295,5 @@ export const shallowCopyNistFile = (nist: NistFile): NistFile => {
     visitorStrategy: {},
   });
 
-  return (copy as unknown) as NistFile;
+  return copy as unknown as NistFile;
 };

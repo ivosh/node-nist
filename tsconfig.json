@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "lib": ["dom", "es2017", "esnext"],
+    "lib": ["dom", "es2021", "esnext"],
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
