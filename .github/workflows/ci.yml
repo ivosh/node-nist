@@ -28,6 +28,14 @@ jobs:
 
     - name: Run the tests
       run: npm run test
+      
+    - name: Generate code coverage
+      run: npm run coverage
+    
+    - name: Upload code coverage
+      uses: codecov/codecov-action@v2
+      with:
+        fail_ci_if_error: true
 
   analyze:
     name: Analyze
