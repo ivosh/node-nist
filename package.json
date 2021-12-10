@@ -1,6 +1,6 @@
 {
   "name": "node-nist",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Simple ANSI/NIST-ITL 1-2011 (update 2015) encoder and decoder for Node.",
   "author": "Ivo Raisr",
   "license": "MIT",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.13",
-    "@types/node": "^14.10.1",
+    "@types/node": "^16.11.12",
     "@types/rimraf": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
