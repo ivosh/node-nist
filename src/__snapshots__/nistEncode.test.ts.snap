@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`negative test: NIST field 1.001 (LEN) must not be provided 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 1.001 (LEN) must not be provided",
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 1,
@@ -15,11 +15,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 2.002 (IDC) must not be provided 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 2.002 (IDC) must not be provided",
-  "nistSource": Object {
+  "nistSource": {
     "field": 2,
     "record": 1,
     "type": 2,
@@ -29,11 +29,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 4.003 is not numeric 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Invalid value for 4.003: aloha",
-  "nistSource": Object {
+  "nistSource": {
     "field": 3,
     "record": 0,
     "type": 4,
@@ -43,11 +43,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 4.004 is not numeric 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Invalid value for 4.004: aloha",
-  "nistSource": Object {
+  "nistSource": {
     "field": 4,
     "record": 0,
     "type": 4,
@@ -57,11 +57,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 4.005 is not numeric 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Invalid value for 4.005: aloha",
-  "nistSource": Object {
+  "nistSource": {
     "field": 5,
     "record": 0,
     "type": 4,
@@ -71,11 +71,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 4.006 is not numeric 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Invalid value for 4.006: aloha",
-  "nistSource": Object {
+  "nistSource": {
     "field": 6,
     "record": 0,
     "type": 4,
@@ -85,11 +85,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 4.007 is not numeric 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Invalid value for 4.007: aloha",
-  "nistSource": Object {
+  "nistSource": {
     "field": 7,
     "record": 0,
     "type": 4,
@@ -99,11 +99,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 4.008 is not numeric 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Invalid value for 4.008: aloha",
-  "nistSource": Object {
+  "nistSource": {
     "field": 8,
     "record": 0,
     "type": 4,
@@ -113,11 +113,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 - not 7-bit ASCII 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 1.008 is not 7-bit ASCII",
-  "nistSource": Object {
+  "nistSource": {
     "field": 8,
     "record": 1,
     "type": 1,
@@ -127,11 +127,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 - regex failed for 1.002 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Expected three or four digits for field 1.002",
-  "nistSource": Object {
+  "nistSource": {
     "field": 2,
     "record": 1,
     "type": 1,
@@ -141,11 +141,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 - regex failed for 1.005 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Expected eight digits for field 1.005",
-  "nistSource": Object {
+  "nistSource": {
     "field": 5,
     "record": 1,
     "type": 1,
@@ -155,11 +155,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 - regex failed for 1.006 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Expected a number between 1 and 9 for field 1.006",
-  "nistSource": Object {
+  "nistSource": {
     "field": 6,
     "record": 1,
     "type": 1,
@@ -169,11 +169,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 - regex failed for 1.011 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Expected a string in format dd.dd for field 1.011",
-  "nistSource": Object {
+  "nistSource": {
     "field": 11,
     "record": 1,
     "type": 1,
@@ -183,11 +183,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 - regex failed for 1.012 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Expected a string in format dd.dd for field 1.012",
-  "nistSource": Object {
+  "nistSource": {
     "field": 12,
     "record": 1,
     "type": 1,
@@ -197,11 +197,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 and Type-2 only - maxLength over for 1.002 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 1.002 exceeds maximum length of 4",
-  "nistSource": Object {
+  "nistSource": {
     "field": 2,
     "record": 1,
     "type": 1,
@@ -211,11 +211,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 and Type-2 only - minLength failed for 1.002 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 1.002 does not meet minimal length of 3",
-  "nistSource": Object {
+  "nistSource": {
     "field": 2,
     "record": 1,
     "type": 1,
@@ -225,11 +225,11 @@ Object {
 `;
 
 exports[`negative test: Type-1 and Type-2 only - missing mandatory 1.004 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 1.004 is mandatory but not provided",
-  "nistSource": Object {
+  "nistSource": {
     "field": 4,
     "record": 1,
     "type": 1,
@@ -239,7 +239,7 @@ Object {
 `;
 
 exports[`negative test: Type-4 - size over internal limit 1`] = `
-Object {
+{
   "category": "NIST",
   "cause": [RangeError: The argument 'size' is invalid. Received 4294967581],
   "code": "NIST_ENCODE_ERROR",
@@ -248,8 +248,8 @@ Object {
 `;
 
 exports[`positive test: Type-1 and Type-2 only with default options - encode into a Buffer 1`] = `
-Object {
-  "data": Array [
+{
+  "data": [
     49,
     46,
     48,
@@ -449,8 +449,8 @@ Object {
 `;
 
 exports[`positive test: Type-1, Type-2, Type-4 with an overflow for 2.001 (record length) 1`] = `
-Object {
-  "data": Array [
+{
+  "data": [
     49,
     46,
     48,
@@ -10868,8 +10868,8 @@ Object {
 `;
 
 exports[`positive test: Type-1, Type-2, Type-4 with default options - encode into a Buffer 1`] = `
-Object {
-  "data": Array [
+{
+  "data": [
     49,
     46,
     48,
@@ -31158,8 +31158,8 @@ Object {
 `;
 
 exports[`positive test: Type-1, Type-2, Type-13 with default options - encode into a Buffer 1`] = `
-Object {
-  "data": Array [
+{
+  "data": [
     49,
     46,
     48,
@@ -41443,8 +41443,8 @@ Object {
 `;
 
 exports[`positive test: no encoding options - encode record type 1 + 2 1`] = `
-Object {
-  "data": Array [
+{
+  "data": [
     49,
     46,
     48,

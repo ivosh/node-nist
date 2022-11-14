@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`negative test: Missing mandatory field as mandated by TOT-specific options 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 2.048 is mandatory but not provided",
-  "nistSource": Object {
+  "nistSource": {
     "field": 48,
     "record": 1,
     "type": 2,
@@ -15,11 +15,11 @@ Object {
 `;
 
 exports[`negative test: NIST field 1.002 is missing 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_VALIDATION_ERROR",
   "detail": "Field 1.002 is mandatory but not provided",
-  "nistSource": Object {
+  "nistSource": {
     "field": 2,
     "record": 1,
     "type": 1,
@@ -29,7 +29,7 @@ Object {
 `;
 
 exports[`negative test: NIST field 1.003 (CNT) at index #1 contains unsupported record type 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST record Type-99 is unsupported.",
@@ -41,12 +41,12 @@ Object {
 `;
 
 exports[`negative test: NIST field 1.003 (CNT) at index #1 does not contain a numeric IDC 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST subfield 1.003.1 does not contain numeric value: [ [ '1', '1' ], [ '<', '00' ] ].",
   "endOffset": 23,
-  "nistSource": Object {
+  "nistSource": {
     "field": 3,
     "record": 1,
     "subField": 1,
@@ -58,12 +58,12 @@ Object {
 `;
 
 exports[`negative test: NIST field 1.003 (CNT) at index #1 indicates another Type-1 record 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 1.003 indicates two Type-1 records: [ [ '1', '1' ], [ '1', '00' ] ].",
   "endOffset": 23,
-  "nistSource": Object {
+  "nistSource": {
     "field": 3,
     "record": 1,
     "subField": 1,
@@ -75,7 +75,7 @@ Object {
 `;
 
 exports[`negative test: NIST field 1.003 (CNT) at index #1 indicates two Type-2 records 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "More than one Type-2 NIST record in one NIST file is unsupported.",
@@ -87,12 +87,12 @@ Object {
 `;
 
 exports[`negative test: NIST field 1.003 (CNT) at index #1 is not an array 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST subfield 1.003.1 does not have a correct format: [ [ '1', '1' ], '1' ].",
   "endOffset": 20,
-  "nistSource": Object {
+  "nistSource": {
     "field": 3,
     "record": 1,
     "subField": 1,
@@ -104,12 +104,12 @@ Object {
 `;
 
 exports[`negative test: NIST field 1.003 (CNT) is not an array 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 1.003 (CNT) does not have a correct format: '0'.",
   "endOffset": 16,
-  "nistSource": Object {
+  "nistSource": {
     "field": 3,
     "record": 1,
     "type": 1,
@@ -120,12 +120,12 @@ Object {
 `;
 
 exports[`negative test: Type-1 record contains NIST field 2.064 from a wrong record type 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 2.064 decoded at offset 9 contains an unexpected record type 2; expected 1.",
   "endOffset": 18,
-  "nistSource": Object {
+  "nistSource": {
     "field": 64,
     "record": 1,
     "type": 2,
@@ -136,7 +136,7 @@ Object {
 `;
 
 exports[`negative test: Type-1 record does not end with a file separator 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "Cannot find NIST file separator between offsets [0, 7].",
@@ -148,7 +148,7 @@ Object {
 `;
 
 exports[`negative test: Type-1 record does not end with a file separator 2`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "Cannot find NIST file separator between offsets [0, 7].",
@@ -160,7 +160,7 @@ Object {
 `;
 
 exports[`negative test: Type-1 record does not have field 1.003 (CNT) 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 1.003 (CNT) was not found between offsets [0, 7].",
@@ -172,12 +172,12 @@ Object {
 `;
 
 exports[`negative test: Type-1 record length field contains 0 for its value 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 1.001 (LEN) does not contain a positive number: 0.",
   "endOffset": undefined,
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 1,
@@ -188,12 +188,12 @@ Object {
 `;
 
 exports[`negative test: Type-1 record length field contains a negative value 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 1.001 (LEN) does not contain a positive number: -8.",
   "endOffset": undefined,
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 1,
@@ -204,7 +204,7 @@ Object {
 `;
 
 exports[`negative test: Type-1 record length field does not contain field number in a correct format 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field number '1 001' at offset 0 does not have a correct format of 'x.yyy': '1 001'.",
@@ -216,7 +216,7 @@ Object {
 `;
 
 exports[`negative test: Type-1 record length field does not contain field number separator 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "Cannot find NIST field number separator between offsets [5, 11]",
@@ -228,12 +228,12 @@ Object {
 `;
 
 exports[`negative test: Type-1 record length field does not have a numeric value 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 1.001 (LEN) does not have a numeric value: '<=>'.",
   "endOffset": undefined,
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 1,
@@ -244,12 +244,12 @@ Object {
 `;
 
 exports[`negative test: Type-1 record length field does not have any value 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST field 1.001 (LEN) does not have any value.",
   "endOffset": undefined,
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 1,
@@ -260,12 +260,12 @@ Object {
 `;
 
 exports[`negative test: Type-1 record length is more than the actual buffer length 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "Record length decoded from NIST field 1.001 indicates 18 bytes but only 9 available.",
   "endOffset": 17,
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 1,
@@ -276,12 +276,12 @@ Object {
 `;
 
 exports[`negative test: Type-2 record is missing field 2.001 (LEN) 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "Record 2 does not contain NIST field 2.001 (LEN).",
   "endOffset": 31,
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 2,
@@ -292,7 +292,7 @@ Object {
 `;
 
 exports[`negative test: Type-2 record is missing file separator 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "Cannot find NIST file separator between offsets [24, 30].",
@@ -304,7 +304,7 @@ Object {
 `;
 
 exports[`negative test: Type-4 record has insufficient length 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST Type-4 record #1 contains only 3 bytes but at least 18 bytes required.",
@@ -316,12 +316,12 @@ Object {
 `;
 
 exports[`negative test: Type-4 record length indicates more bytes than available 1`] = `
-Object {
+{
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
   "detail": "NIST Type-4 record #1's record length indicates 772 bytes but only 20 available.",
   "endOffset": 43,
-  "nistSource": Object {
+  "nistSource": {
     "field": 1,
     "record": 1,
     "type": 4,
