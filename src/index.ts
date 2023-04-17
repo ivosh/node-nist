@@ -89,6 +89,24 @@ export interface NistType4Record {
   [key: number]: NistFieldValue;
 }
 
+/** Minutiae and related information encoded from a finger or palm */
+export interface NistType9Record {
+  1?: /* len */ string /* computed automatically during encoding process */;
+  2?: /* idc */ string /* computed automatically during encoding process */;
+  3: /* imp */ string;
+  4: /* fmt */ string;
+  5: /* ofr */ string;
+  6: /* fgp */ string;
+  7: /* fpc */ string;
+  8?: /* crp */ string;
+  9?: /* dlt */ string;
+  10: /* min */ string;
+  11: /* rdg */ string;
+  12?: /* mrc */ string;
+  // For all other fields not mentioned above:
+  [key: number]: NistFieldValue;
+}
+
 /** Photographic body part imagery (including face and SMT). */
 export interface NistType10Record {
   1?: /* len */ string /* computed automatically during encoding process */;
@@ -142,6 +160,7 @@ export type NistRecord =
   | NistType1Record
   | NistType2Record
   | NistType4Record
+  | NistType9Record
   | NistType10Record
   | NistType13Record
   | NistType14Record;
@@ -150,6 +169,7 @@ export interface NistFile {
   1: NistType1Record;
   2?: NistType2Record;
   4?: NistType4Record[];
+  9?: NistType9Record[];
   10?: NistType10Record[];
   13?: NistType13Record[];
   14?: NistType14Record[];

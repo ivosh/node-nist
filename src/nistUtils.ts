@@ -13,7 +13,7 @@ export const formatFieldKey = (typeNumber: number | string, fieldNumber: number 
   `${typeNumber}.${String(fieldNumber).padStart(3, '0')}`;
 
 /** Currently supported NIST record Type-x numbers; at least for now. */
-export const nistRecordTypeNumbers = [1, 2, 4, 10, 13, 14];
+export const nistRecordTypeNumbers = [1, 2, 4, 9, 10, 13, 14];
 
 export const nistValidationError = (
   detail: string,
