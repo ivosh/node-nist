@@ -245,7 +245,7 @@ if (encodeResult.tag === 'success') {
 ## Limitations
 
  * Traditional (binary) encoding is used; NIEM-conformant (XML) is not supported.
- * Supported records: Type-1, Type-2, Type-4, Type-10, Type-13, Type-14.
+ * Supported records: Type-1, Type-2, Type-4, Type-9, Type-10, Type-13, Type-14.
  * Only one Type-2 record is supported.
  * Information designation character (IDC) is automatically generated during encoding (linking of records is not supported).
  * All Type-1 fields must be 7-bit ASCII.
