@@ -15,9 +15,11 @@ const generateBinaryData = (length: number): Buffer => {
 
 let fp1: Buffer;
 let fp2: Buffer;
+let fp3: Buffer;
 beforeAll(async () => {
   fp1 = await fsPromises.readFile('./src/Fingerprint_LeftPointer.wsq');
   fp2 = await fsPromises.readFile('./src/Fingerprint_RightPointer.wsq');
+  fp3 = await fsPromises.readFile('./src/Fingeprint_Latent.wsq');
 });
 
 describe('positive test:', () => {
@@ -525,6 +527,80 @@ describe('positive test:', () => {
     expect((result as Success<Buffer>).value.byteLength).toBe(10277);
     expect((result as Success<Buffer>).value).toMatchSnapshot();
     // await fsPromises.writeFile('type-1-2-13.tdf', (result as Success<Buffer>).value);
+  });
+
+  it('Type-1, Type-2, Type-9, Type-13 with default options - encode into a Buffer', () => {
+    const nist: NistFile = {
+      1: {
+        2: '0201',
+        3: [
+          ['1', '3'],
+          ['2', '00'],
+          ['9', '1'],
+          ['13', '1'],
+        ],
+        4: 'LFFS',
+        5: '20200122',
+        7: 'WVNGI0520',
+        8: 'WVNGI0520',
+        9: 'UCNRHMPXFAPV',
+        11: '39.37',
+        12: '39.37',
+      },
+      2: {
+        6: 'FBI LATENT PRINT',
+        10: [['UCN: RHMPXFAPV', 'BSI: 2000167243433']],
+        11: '1111',
+        74: '00',
+        79: '20',
+        83: 'Y',
+        95: 'Y',
+        98: '1',
+      },
+      9: [
+        {
+          3: '7',
+          4: 'U',
+          300: [['1971', '2873', '0', '0', '0,0-0,2873-1971,2873-1971,0']],
+          301: [['0', '30']],
+          302: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
+          331: [
+            ['1015', '759', '174', 'E'],
+            ['1003', '784', '343', 'E'],
+            ['967', '962', '191', 'B'],
+            ['1264', '1046', '129', 'B'],
+            ['822', '1069', '11', 'B'],
+            ['1241', '1201', '276', 'E'],
+            ['657', '1284', '73', 'B'],
+            ['1096', '1523', '264', 'E'],
+            ['739', '2345', '17', 'E'],
+            ['1086', '2381', '34', 'E'],
+          ],
+        },
+      ],
+      13: [
+        {
+          3: '0',
+          4: 'WVNGI0520',
+          5: '20200122',
+          6: '777',
+          7: '1132',
+          8: '1',
+          9: '1000',
+          10: '1000',
+          11: 'NONE',
+          12: '8',
+          13: ['18'],
+          999: fp3,
+        },
+      ],
+    };
+
+    const result = nistEncode(nist, nistEncodeOptions);
+    console.log(result);
+    expect(result.tag).toEqual('success');
+    expect((result as Success<Buffer>).value.byteLength).toBe(880293);
+    expect((result as Success<Buffer>).value).toMatchSnapshot();
   });
 });
 

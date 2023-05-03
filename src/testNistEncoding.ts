@@ -240,7 +240,7 @@ export const nistEncodeOptions: NistEncodeOptions = {
           regexs: [
             {
               errMsg: 'Expected a valid compression algorithm for a latent image',
-              regex: '^(?:JPEGL|JP2L|PNG|WSQ)$',
+              regex: '^(?:JPEGL|JP2L|PNG|WSQ|NONE)$',
             },
           ],
         },

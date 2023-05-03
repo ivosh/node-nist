@@ -95,13 +95,13 @@ export interface NistType9Record {
   2?: /* idc */ string /* computed automatically during encoding process */;
   3: /* imp */ string;
   4: /* fmt */ string;
-  5: /* ofr */ string;
-  6: /* fgp */ string;
-  7: /* fpc */ string;
+  5?: /* ofr */ string;
+  6?: /* fgp */ string;
+  7?: /* fpc */ string;
   8?: /* crp */ string;
   9?: /* dlt */ string;
-  10: /* min */ string;
-  11: /* rdg */ string;
+  10?: /* min */ string;
+  11?: /* rdg */ string;
   12?: /* mrc */ string;
   // For all other fields not mentioned above:
   [key: number]: NistFieldValue;
