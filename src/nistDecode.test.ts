@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { nistDecode, nistEncode, NistError, NistFile } from './index';
+import { nistDecode, nistEncode, NistError, NistFile, NistType9Record } from './index';
 import { decodeGenericNistRecord, DecodeGenericRecordResult } from './nistDecode';
 import { Failure, Success } from './result';
 import { nistDecodeOptions } from './testNistDecoding';
@@ -9,10 +9,12 @@ const fsPromises = fs.promises;
 let fp1: Buffer;
 let fp2: Buffer;
 let sreWithFace: Buffer;
+let latentMinutiae: Buffer;
 beforeAll(async () => {
   fp1 = await fsPromises.readFile('./src/Fingerprint_LeftPointer.wsq');
   fp2 = await fsPromises.readFile('./src/Fingerprint_RightPointer.wsq');
   sreWithFace = await fsPromises.readFile('./src/sre_with_face.tdf');
+  latentMinutiae = await fsPromises.readFile('./src/latent_with_minutiae.lffs');
 });
 
 describe('positive test:', () => {
@@ -359,6 +361,35 @@ describe('positive test:', () => {
     if (nistFile[10]) {
       expect(nistFile[10][0][999]).toHaveLength(4025 - 157);
     }
+  });
+  it('decode Type-9 with default options', () => {
+    const result = nistDecode(latentMinutiae, {});
+
+    expect(result.tag).toEqual('success');
+    const nistFile = (result as Success<NistFile>).value;
+    const type9Records: NistType9Record[] = nistFile[9] as NistType9Record[];
+    const type9Record = type9Records[0];
+    expect(type9Record).toEqual({
+      '1': '284',
+      '2': '1',
+      '3': '7',
+      '4': 'U',
+      '300': [['1971', '2873', '0', '0', '0,0-0,2873-1971,2873-1971,0']],
+      '301': [['0', '30']],
+      '302': ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
+      '331': [
+        ['1015', '759', '174', 'E'],
+        ['1003', '784', '343', 'E'],
+        ['967', '962', '191', 'B'],
+        ['1264', '1046', '129', 'B'],
+        ['822', '1069', '11', 'B'],
+        ['1241', '1201', '276', 'E'],
+        ['657', '1284', '73', 'B'],
+        ['1096', '1523', '264', 'E'],
+        ['739', '2345', '17', 'E'],
+        ['1086', '2381', '34', 'E'],
+      ],
+    });
   });
 });
 
