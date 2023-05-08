@@ -1,4 +1,4 @@
-[![Travis (.org)](https://img.shields.io/travis/ivosh/node-nist?style=plastic)](https://travis-ci.org/ivosh/node-nist)
+[![Build](https://github.com/ivosh/node-nist/actions/workflows/ci.yml/badge.svg)](https://github.com/ivosh/node-nist/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/ivosh/node-nist?style=plastic)](https://codecov.io/gh/ivosh/node-nist)
 [![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/node-nist?style=plastic)](https://libraries.io/github/ivosh/node-nist)
 ![npm](https://img.shields.io/npm/dm/node-nist?style=plastic)
