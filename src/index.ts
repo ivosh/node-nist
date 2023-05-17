@@ -5,7 +5,7 @@ import { Result } from './result';
  * Simple low-level ANSI/NIST-ITL 1-2011 (update 2015) encoding and decoding utility library.
  *
  * Current limitations:
- * - Supported records: Type-1, Type-2, Type-4, Type-10, Type-13, Type-14.
+ * - Supported records: Type-1, Type-2, Type-4, Type-9, Type-10, Type-13, Type-14.
  * - Only one Type-2 record is supported.
  * - Traditional (binary) encoding is used; NIEM-conformant (XML) is not supported.
  * - Information designation character (IDC) is automatically generated during encoding
@@ -89,7 +89,7 @@ export interface NistType4Record {
   [key: number]: NistFieldValue;
 }
 
-/** Minutiae and related information encoded from a finger or palm */
+/** Minutiae and related information encoded from a finger or palm. */
 export interface NistType9Record {
   1?: /* len */ string /* computed automatically during encoding process */;
   2?: /* idc */ string /* computed automatically during encoding process */;
