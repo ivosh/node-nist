@@ -19,7 +19,7 @@ let fp3: Buffer;
 beforeAll(async () => {
   fp1 = await fsPromises.readFile('./src/Fingerprint_LeftPointer.wsq');
   fp2 = await fsPromises.readFile('./src/Fingerprint_RightPointer.wsq');
-  fp3 = await fsPromises.readFile('./src/Fingeprint_Latent.wsq');
+  fp3 = await fsPromises.readFile('./src/Fingerprint_Latent.wsq');
 });
 
 describe('positive test:', () => {
@@ -533,12 +533,6 @@ describe('positive test:', () => {
     const nist: NistFile = {
       1: {
         2: '0201',
-        3: [
-          ['1', '3'],
-          ['2', '00'],
-          ['9', '1'],
-          ['13', '1'],
-        ],
         4: 'LFFS',
         5: '20200122',
         7: 'WVNGI0520',
@@ -563,6 +557,7 @@ describe('positive test:', () => {
           4: 'U',
           300: [['1971', '2873', '0', '0', '0,0-0,2873-1971,2873-1971,0']],
           301: [['0', '30']],
+          // If the exact finger or palm position cannot be determined, multiple finger positions may be entered, separated by the “RS” character
           302: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
           331: [
             ['1015', '759', '174', 'E'],
@@ -597,7 +592,6 @@ describe('positive test:', () => {
     };
 
     const result = nistEncode(nist, nistEncodeOptions);
-    console.log(result);
     expect(result.tag).toEqual('success');
     expect((result as Success<Buffer>).value.byteLength).toBe(880293);
     expect((result as Success<Buffer>).value).toMatchSnapshot();
