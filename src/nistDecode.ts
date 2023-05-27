@@ -96,10 +96,37 @@ const findSeparators = (
   );
 };
 
+/** Determines whether the key corresponds to a NIST field which contains repeating sets of information items;
+ * and out of those items only one is mandatory and the rest is optional, such as field 9.302.
+ * Decoding such a field value could be ambiguous without further hinting the decoder.
+ */
+const alwaysDecodeAsSet = (input: NistFieldKey): boolean => {
+  const key = `${input.type}.${input.field}`;
+
+  const keys: string[] = [
+    '9.135',
+    '9.302',
+    '9.324',
+    '9.354',
+    '9.355',
+    '9.356',
+    '10.42',
+    '10.48',
+    '10.995',
+    '10.997',
+    '13.995',
+    '13.997',
+    '14.995',
+    '14.997',
+  ];
+  return keys.includes(key);
+};
+
 const stringValue = (buffer: Buffer, startOffset: number, endOffset: number): string =>
   buffer.toString(undefined, startOffset, endOffset + 1);
 
 const decodeNistSubfield = (
+  key: NistFieldKey,
   buffer: Buffer,
   startOffset: number,
   endOffset: number
@@ -107,23 +134,28 @@ const decodeNistSubfield = (
   let offset = startOffset;
 
   let unitSeparator = findSeparator(buffer, SEPARATOR_UNIT, offset, endOffset);
-  if (!unitSeparator) {
-    return stringValue(buffer, startOffset, endOffset);
+  if (unitSeparator) {
+    let subfield: NistSubfield = [];
+    while (offset <= endOffset) {
+      subfield = [
+        ...subfield,
+        stringValue(buffer, offset, unitSeparator ? unitSeparator - 1 : endOffset),
+      ];
+      offset = (unitSeparator || endOffset) + 1;
+      unitSeparator = findSeparator(buffer, SEPARATOR_UNIT, offset, endOffset);
+    }
+    return subfield;
   }
 
-  let subfield: NistSubfield = [];
-  while (offset <= endOffset) {
-    subfield = [
-      ...subfield,
-      stringValue(buffer, offset, unitSeparator ? unitSeparator - 1 : endOffset),
-    ];
-    offset = (unitSeparator || endOffset) + 1;
-    unitSeparator = findSeparator(buffer, SEPARATOR_UNIT, offset, endOffset);
+  // The same logic is present also in decodeNistFieldValue.
+  if (alwaysDecodeAsSet(key)) {
+    return [stringValue(buffer, startOffset, endOffset)];
   }
-  return subfield;
+  return stringValue(buffer, startOffset, endOffset);
 };
 
 const decodeNistFieldValue = (
+  key: NistFieldKey,
   buffer: Buffer,
   startOffset: number,
   endOffset: number
@@ -136,17 +168,21 @@ const decodeNistFieldValue = (
   if (!recordSeparator) {
     // Deal with the common case where there is just a single value in the whole field.
     if (!unitSeparator) {
+      // The same logic is present also in decodeNistSubfield.
+      if (alwaysDecodeAsSet(key)) {
+        return [[stringValue(buffer, startOffset, endOffset)]];
+      }
       return stringValue(buffer, startOffset, endOffset);
     }
     // Also deal with the case there is no record separator but some unit separators.
-    return [decodeNistSubfield(buffer, startOffset, endOffset)];
+    return [decodeNistSubfield(key, buffer, startOffset, endOffset)];
   }
 
   let fieldValue: NistFieldValue = [];
   while (offset <= endOffset) {
     fieldValue = [
       ...fieldValue,
-      decodeNistSubfield(buffer, offset, recordSeparator ? recordSeparator - 1 : endOffset),
+      decodeNistSubfield(key, buffer, offset, recordSeparator ? recordSeparator - 1 : endOffset),
     ];
     offset = (recordSeparator || endOffset) + 1;
     recordSeparator = findSeparator(buffer, SEPARATOR_RECORD, offset, endOffset);
@@ -260,12 +296,12 @@ const decodeType4Record = (
   }
   const idc = buffer.readUInt8(startOffset + 4);
   const imp = buffer.readUInt8(startOffset + 5);
-  const fgp = buffer.slice(startOffset + 6, startOffset + 12);
+  const fgp = buffer.subarray(startOffset + 6, startOffset + 12);
   const isr = buffer.readUInt8(startOffset + 12);
   const hll = buffer.readInt16BE(startOffset + 13);
   const vll = buffer.readInt16BE(startOffset + 15);
   const cga = buffer.readUInt8(startOffset + 17);
-  const data = buffer.slice(startOffset + 18, recordEndOffset + 1);
+  const data = buffer.subarray(startOffset + 18, recordEndOffset + 1);
 
   return success({
     record: {
@@ -346,8 +382,8 @@ export const decodeGenericNistRecord = (
 
     const value =
       nistFieldKey.value.key.field === 999
-        ? buffer.slice(valueStartOffset, fieldEndOffset)
-        : decodeNistFieldValue(buffer, valueStartOffset, fieldEndOffset);
+        ? buffer.subarray(valueStartOffset, fieldEndOffset)
+        : decodeNistFieldValue(nistFieldKey.value.key, buffer, valueStartOffset, fieldEndOffset);
     const nistField = { key: nistFieldKey.value.key, value };
 
     if (nistField.key.field === 1) {

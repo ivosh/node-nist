@@ -9,11 +9,11 @@ import { NistValidationError } from './nistError';
 import { NistFieldVisitorFn, NistFieldVisitorFnReturn, visitNistFile } from './nistVisitor';
 import { Result, success } from './result';
 
-export const formatFieldKey = (typeNumber: number | string, fieldNumber: number | string): string =>
-  `${typeNumber}.${String(fieldNumber).padStart(3, '0')}`;
-
 /** Currently supported NIST record Type-x numbers; at least for now. */
 export const nistRecordTypeNumbers = [1, 2, 4, 9, 10, 13, 14];
+
+export const formatFieldKey = (typeNumber: number | string, fieldNumber: number | string): string =>
+  `${typeNumber}.${String(fieldNumber).padStart(3, '0')}`;
 
 export const nistValidationError = (
   detail: string,

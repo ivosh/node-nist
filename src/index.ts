@@ -22,9 +22,9 @@ export type NistFieldValue = NistSubfield | NistSubfield[];
 
 /** Identification of a NIST field, colloquially represented for example as 1.003. */
 export interface NistFieldKey {
-  type: number; // which record Type-x
+  type: number; // which record Type-x (such as 9)
   record: number; // which record instance of multiple Type-4 records (mostly uninteresting)
-  field: number; // which field
+  field: number; // which field (such as 302)
 }
 
 /**

@@ -362,6 +362,7 @@ describe('positive test:', () => {
       expect(nistFile[10][0][999]).toHaveLength(4025 - 157);
     }
   });
+
   it('decode Type-9 with default options', () => {
     const result = nistDecode(latentMinutiae, {});
 
@@ -376,7 +377,8 @@ describe('positive test:', () => {
       4: 'U',
       300: [['1971', '2873', '0', '0', '0,0-0,2873-1971,2873-1971,0']],
       301: [['0', '30']],
-      302: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
+      // Only mandatory FGP is used for this particular case of 9.302.
+      302: [['01'], ['02'], ['03'], ['04'], ['05'], ['06'], ['07'], ['08'], ['09'], ['10']],
       331: [
         ['1015', '759', '174', 'E'],
         ['1003', '784', '343', 'E'],
@@ -388,6 +390,173 @@ describe('positive test:', () => {
         ['1096', '1523', '264', 'E'],
         ['739', '2345', '17', 'E'],
         ['1086', '2381', '34', 'E'],
+      ],
+    });
+  });
+
+  it('field 9.302 with a single mandatory FGP only', () => {
+    const nistOriginal = {
+      1: {
+        2: '0502',
+        4: 'SRE',
+        5: '20191023',
+        7: 'DAI035454',
+        8: 'ORI385743',
+        9: 'QS0000000405',
+        11: '00.00',
+        12: '00.00',
+      },
+      9: [
+        {
+          3: '7',
+          4: 'U',
+          302: [['01']],
+        },
+      ],
+    };
+    const buffer = nistEncode(nistOriginal, {});
+    expect(buffer.tag).toEqual('success');
+
+    const result = nistDecode((buffer as Success<Buffer>).value, nistDecodeOptions);
+    expect(result.tag).toEqual('success');
+    expect((result as Success<NistFile>).value).toEqual({
+      1: {
+        1: '136',
+        2: '0502',
+        3: [
+          ['1', '1'],
+          ['9', '00'],
+        ],
+        4: 'SRE',
+        5: '20191023',
+        7: 'DAI035454',
+        8: 'ORI385743',
+        9: 'QS0000000405',
+        11: '00.00',
+        12: '00.00',
+      },
+      9: [
+        {
+          1: '43',
+          2: '00',
+          3: '7',
+          4: 'U',
+          302: [['01']],
+        },
+      ],
+    });
+  });
+
+  it('field 9.302 with several mandatory FGPs only', () => {
+    const nistOriginal = {
+      1: {
+        2: '0502',
+        4: 'SRE',
+        5: '20191023',
+        7: 'DAI035454',
+        8: 'ORI385743',
+        9: 'QS0000000405',
+        11: '00.00',
+        12: '00.00',
+      },
+      9: [
+        {
+          3: '7',
+          4: 'U',
+          302: [['01'], ['02'], ['03']],
+        },
+      ],
+    };
+    const buffer = nistEncode(nistOriginal, {});
+    expect(buffer.tag).toEqual('success');
+
+    const result = nistDecode((buffer as Success<Buffer>).value, nistDecodeOptions);
+    expect(result.tag).toEqual('success');
+    expect((result as Success<NistFile>).value).toEqual({
+      1: {
+        1: '136',
+        2: '0502',
+        3: [
+          ['1', '1'],
+          ['9', '00'],
+        ],
+        4: 'SRE',
+        5: '20191023',
+        7: 'DAI035454',
+        8: 'ORI385743',
+        9: 'QS0000000405',
+        11: '00.00',
+        12: '00.00',
+      },
+      9: [
+        {
+          1: '49',
+          2: '00',
+          3: '7',
+          4: 'U',
+          302: [['01'], ['02'], ['03']],
+        },
+      ],
+    });
+  });
+
+  it('field 9.302 with mandatory and optional items', () => {
+    const nistOriginal = {
+      1: {
+        2: '0502',
+        4: 'SRE',
+        5: '20191023',
+        7: 'DAI035454',
+        8: 'ORI385743',
+        9: 'QS0000000405',
+        11: '00.00',
+        12: '00.00',
+      },
+      9: [
+        {
+          3: '7',
+          4: 'U',
+          302: [
+            ['01', 'PRX', 'T'],
+            ['02', 'DST', 'T'],
+            ['03', 'MED', 'T'],
+          ],
+        },
+      ],
+    };
+    const buffer = nistEncode(nistOriginal, {});
+    expect(buffer.tag).toEqual('success');
+
+    const result = nistDecode((buffer as Success<Buffer>).value, nistDecodeOptions);
+    expect(result.tag).toEqual('success');
+    expect((result as Success<NistFile>).value).toEqual({
+      1: {
+        1: '136',
+        2: '0502',
+        3: [
+          ['1', '1'],
+          ['9', '00'],
+        ],
+        4: 'SRE',
+        5: '20191023',
+        7: 'DAI035454',
+        8: 'ORI385743',
+        9: 'QS0000000405',
+        11: '00.00',
+        12: '00.00',
+      },
+      9: [
+        {
+          1: '67',
+          2: '00',
+          3: '7',
+          4: 'U',
+          302: [
+            ['01', 'PRX', 'T'],
+            ['02', 'DST', 'T'],
+            ['03', 'MED', 'T'],
+          ],
+        },
       ],
     });
   });

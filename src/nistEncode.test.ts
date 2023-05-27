@@ -557,8 +557,8 @@ describe('positive test:', () => {
           4: 'U',
           300: [['1971', '2873', '0', '0', '0,0-0,2873-1971,2873-1971,0']],
           301: [['0', '30']],
-          // If the exact finger or palm position cannot be determined, multiple finger positions may be entered, separated by the “RS” character
-          302: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
+          // If the exact finger or palm position cannot be determined, multiple finger positions may be entered.
+          302: [['01'], ['02'], ['03'], ['04'], ['05'], ['06'], ['07'], ['08'], ['09'], ['10']],
           331: [
             ['1015', '759', '174', 'E'],
             ['1003', '784', '343', 'E'],
