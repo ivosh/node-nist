@@ -17,7 +17,7 @@ export const formatFieldKey = (typeNumber: number | string, fieldNumber: number 
 
 export const nistValidationError = (
   detail: string,
-  source: { type: number; record: number; field: number }
+  source: { type: number; record: number; field: number },
 ): NistValidationError => ({
   category: 'NIST',
   code: 'NIST_VALIDATION_ERROR',

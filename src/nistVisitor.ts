@@ -34,7 +34,7 @@ interface NistFieldVisitorParams<D, T extends NistFieldCodecOptions> {
 
 export type NistFieldVisitorFnReturn = Result<NistFieldValue | void, NistValidationError>;
 export type NistFieldVisitorFn<D, T extends NistFieldCodecOptions> = (
-  params: NistFieldVisitorParams<D, T>
+  params: NistFieldVisitorParams<D, T>,
 ) => NistFieldVisitorFnReturn;
 interface NistFieldVisitor<D, T extends NistFieldCodecOptions> {
   fn: NistFieldVisitorFn<D, T>;
@@ -54,7 +54,7 @@ interface VisitNistFieldParams<D, T extends NistFieldCodecOptions> {
   fieldVisitor: NistFieldVisitor<D, T>;
 }
 const visitNistField = <D, T extends NistFieldCodecOptions>(
-  params: VisitNistFieldParams<D, T>
+  params: VisitNistFieldParams<D, T>,
 ): NistFieldVisitorFnReturn => {
   const { nist, record, key, value, options, fieldVisitor } = params;
   const field = { key, value };
@@ -83,7 +83,7 @@ interface NistRecordVisitorParams<D, T extends NistFieldCodecOptions> {
 }
 
 export type NistRecordVisitorFn<D, T extends NistFieldCodecOptions> = (
-  params: NistRecordVisitorParams<D, T>
+  params: NistRecordVisitorParams<D, T>,
 ) => Result<void, NistValidationError>;
 interface NistRecordVisitor<D, T extends NistFieldCodecOptions> {
   fn: NistRecordVisitorFn<D, T>;
@@ -110,8 +110,8 @@ export const visitNistRecord = <D, T extends NistFieldCodecOptions>({
         return failure(
           nistValidationError(
             `NIST field number is not numeric for ${formatFieldKey(recordNumber, key)}`,
-            { type: recordTypeNumber, record: recordNumber, field: 0 }
-          )
+            { type: recordTypeNumber, record: recordNumber, field: 0 },
+          ),
         );
       }
       if (!record[fieldNumber]) {
@@ -126,8 +126,8 @@ export const visitNistRecord = <D, T extends NistFieldCodecOptions>({
       return failure(
         nistValidationError(
           `NIST field number is not numeric for ${formatFieldKey(recordNumber, key)}`,
-          { type: recordTypeNumber, record: recordNumber, field: 0 }
-        )
+          { type: recordTypeNumber, record: recordNumber, field: 0 },
+        ),
       );
     }
 
@@ -208,7 +208,7 @@ const visitNistRecords = <D, T extends NistFieldCodecOptions>({
 interface VisitNistFileParams<
   D,
   T extends NistFieldCodecOptions,
-  U extends NistRecordCodecOptions<T>
+  U extends NistRecordCodecOptions<T>,
 > {
   nist: NistFile;
   visitorStrategy: NistVisitorStrategy;
@@ -221,7 +221,7 @@ interface VisitNistFileParams<
 export const visitNistFile = <
   D,
   T extends NistFieldCodecOptions,
-  U extends NistRecordCodecOptions<T>
+  U extends NistRecordCodecOptions<T>,
 >({
   nist,
   visitorStrategy,
@@ -261,7 +261,7 @@ export const visitNistFile = <
 /* --------------------------- NIST file shallow copy ------------------------------------------- */
 
 const shallowCopyNistFieldValue: NistFieldVisitorFn<NistFileInternal, NistFieldCodecOptions> = (
-  params
+  params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, data: nistFileCopy } = params;
   const nistFile = nist as unknown as NistFileInternal;

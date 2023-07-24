@@ -207,7 +207,7 @@ export interface NistRecordCodecOptions<T extends NistFieldCodecOptions> {
  */
 export interface NistFileCodecOptionsPerTot<
   T extends NistFieldCodecOptions,
-  U extends NistRecordCodecOptions<T>
+  U extends NistRecordCodecOptions<T>,
 > {
   [key: number]: U;
 }
@@ -215,7 +215,7 @@ export interface NistFileCodecOptionsPerTot<
 /** Common encoding and decoding options for a NIST file, all processing paths. */
 export interface NistFileCodecOptions<
   T extends NistFieldCodecOptions,
-  U extends NistRecordCodecOptions<T>
+  U extends NistRecordCodecOptions<T>,
 > {
   /** Codec options common to all processing paths. */
   default: NistFileCodecOptionsPerTot<T, U>;
@@ -227,7 +227,7 @@ export interface NistFileCodecOptions<
 export interface NistCodecOptions<
   T extends NistFieldCodecOptions,
   U extends NistRecordCodecOptions<T>,
-  V extends NistFileCodecOptions<T, U>
+  V extends NistFileCodecOptions<T, U>,
 > {
   ignoreMissingMandatoryFields?: boolean;
   ignoreValidationChecks?: boolean;

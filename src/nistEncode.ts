@@ -53,7 +53,7 @@ export type NistEncodeOptions = NistCodecOptions<
 /* --------------------------- Defaults, formatters --------------------------------------------- */
 
 const formatNistField: NistFieldVisitorFn<void, NistFieldEncodeOptions> = (
-  params
+  params,
 ): NistFieldVisitorFnReturn => {
   const { field, nist, options } = params;
   if (options && options.formatter) {
@@ -105,7 +105,7 @@ interface IdcTracking {
   records: [string /* record */, string /* IDC */][];
 }
 const assignIDC: NistRecordVisitorFn<IdcTracking, NistFieldEncodeOptions> = (
-  params
+  params,
 ): Result<void, NistValidationError> => {
   const { record, recordTypeNumber, data } = params;
   if (recordTypeNumber > 1) {
@@ -133,7 +133,7 @@ const subfieldLength = (subfield: NistSubfield): number =>
   Array.isArray(subfield)
     ? subfield.reduce(
         (total, informationItem) => total + informationItemLength(informationItem),
-        0
+        0,
       ) +
       (subfield.length - 1) // unit separators
     : informationItemLength(subfield);
@@ -142,7 +142,7 @@ const fieldValueLength = (value: NistFieldValue): number =>
   Array.isArray(value)
     ? (value as NistInformationItem[]).reduce(
         (total, subfield) => total + subfieldLength(subfield),
-        0
+        0,
       ) +
       (value.length - 1) // record separators
     : subfieldLength(value);
@@ -162,7 +162,7 @@ const assignFieldLength: NistFieldVisitorFn<LengthTracking, NistFieldEncodeOptio
 };
 
 const assignRecordLength: NistRecordVisitorFn<LengthTracking, NistFieldEncodeOptions> = (
-  params
+  params,
 ): Result<void, NistValidationError> => {
   const { nist, recordTypeNumber, record, recordNumber, visitorStrategy, data } = params;
 
@@ -251,7 +251,7 @@ const toNumber = (
   recordTypeNumber: number,
   recordNumber: number,
   fieldNumber: number,
-  value?: NistFieldValue
+  value?: NistFieldValue,
 ): Result<number, NistValidationError> => {
   if (!value) {
     return failure(
@@ -259,15 +259,15 @@ const toNumber = (
         field: fieldNumber,
         record: recordNumber,
         type: recordTypeNumber,
-      })
+      }),
     );
   }
   if (typeof value !== 'string') {
     return failure(
       nistValidationError(
         `Invalid value format for ${formatFieldKey(recordTypeNumber, fieldNumber)}: ${value}`,
-        { type: recordTypeNumber, record: recordNumber, field: fieldNumber }
-      )
+        { type: recordTypeNumber, record: recordNumber, field: fieldNumber },
+      ),
     );
   }
   const num = parseInt(value, 10);
@@ -275,8 +275,8 @@ const toNumber = (
     return failure(
       nistValidationError(
         `Invalid value for ${formatFieldKey(recordTypeNumber, fieldNumber)}: ${value}`,
-        { type: recordTypeNumber, record: recordNumber, field: fieldNumber }
-      )
+        { type: recordTypeNumber, record: recordNumber, field: fieldNumber },
+      ),
     );
   }
 
@@ -286,7 +286,7 @@ const toNumber = (
 const encodeType4Record = (
   record: NistType4Record,
   recordNumber: number,
-  data: EncodeTracking
+  data: EncodeTracking,
 ): Result<void, NistValidationError> => {
   const length = toNumber(4, recordNumber, 1, record[1]);
   if (length.tag === 'failure') {
@@ -349,7 +349,7 @@ const encodeType4Record = (
 
 const encodeNistInformationItem = (
   informationItem: NistInformationItem,
-  data: EncodeTracking
+  data: EncodeTracking,
 ): void => {
   if (informationItem) {
     if (typeof informationItem === 'string') {
@@ -396,7 +396,7 @@ const encodeNistField: NistFieldVisitorFn<EncodeTracking, NistFieldEncodeOptions
 };
 
 const encodeNistRecord: NistRecordVisitorFn<EncodeTracking, NistFieldEncodeOptions> = (
-  params
+  params,
 ): Result<void, NistValidationError> => {
   const { data, recordTypeNumber, recordNumber, record } = params;
 
@@ -438,7 +438,7 @@ export interface NistPopulateSuccess {
 }
 export const nistPopulate = (
   nistOrig: NistFile,
-  options: NistEncodeOptions
+  options: NistEncodeOptions,
 ): Result<NistPopulateSuccess, NistValidationError> => {
   // 1. copy of the NistFile structure only; values are not copied
   const nist = shallowCopyNistFile(nistOrig);
@@ -466,7 +466,7 @@ export const nistPopulate = (
 /** Encodes a NistFile structure into a Buffer. */
 export const nistEncode = (
   nist: NistFile,
-  options: NistEncodeOptions = {}
+  options: NistEncodeOptions = {},
 ): Result<Buffer, NistValidationError | NistEncodeError> => {
   // 1. check for validity
   const result1 = nistValidation(nist, { ...options, checkForbiddenFields: true });

@@ -289,7 +289,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
 
       const segLength = data.readUInt16BE(offset + 2);
       const attributes = parseComments(
-        data.toString(undefined, offset + 4, offset + segLength + 2)
+        data.toString(undefined, offset + 4, offset + segLength + 2),
       );
       if (attributes.tag === 'success') {
         if (!attributes.value.has('NIST_COM')) {

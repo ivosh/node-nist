@@ -16,7 +16,7 @@ import {
 import { match, success } from './result';
 
 const checkMandatory: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
-  params
+  params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
   if (options && options.mandatory) {
@@ -28,15 +28,15 @@ const checkMandatory: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
       undefined,
       nistValidationError(
         `Field ${formatFieldKey(field.key.type, field.key.field)} is mandatory but not provided`,
-        field.key
-      )
+        field.key,
+      ),
     );
   }
   return success(undefined);
 };
 
 const checkMaxLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
-  params
+  params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
   if (options && options.maxLength) {
@@ -48,17 +48,17 @@ const checkMaxLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
       nistValidationError(
         `Field ${formatFieldKey(
           field.key.type,
-          field.key.field
+          field.key.field,
         )} exceeds maximum length of ${maxLength}`,
-        field.key
-      )
+        field.key,
+      ),
     );
   }
   return success(undefined);
 };
 
 const checkMinLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
-  params
+  params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
   if (options && options.minLength) {
@@ -70,17 +70,17 @@ const checkMinLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
       nistValidationError(
         `Field ${formatFieldKey(
           field.key.type,
-          field.key.field
+          field.key.field,
         )} does not meet minimal length of ${minLength}`,
-        field.key
-      )
+        field.key,
+      ),
     );
   }
   return success(undefined);
 };
 
 const checkRegexs: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
-  params
+  params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
   if (options && options.regexs) {
@@ -91,8 +91,8 @@ const checkRegexs: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
         undefined,
         nistValidationError(
           `${regex.errMsg} for field ${formatFieldKey(field.key.type, field.key.field)}`,
-          field.key
-        )
+          field.key,
+        ),
       );
     }
   }
@@ -102,7 +102,7 @@ const checkRegexs: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
 const is7bitAscii = (input: NistInformationItem): boolean =>
   typeof input === 'string' ? /^[\x20-\x7e]*$/.test(input) : true;
 export const check7bitAscii: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
-  params
+  params,
 ): NistFieldVisitorFnReturn => {
   const { field } = params;
   return match(
@@ -110,14 +110,14 @@ export const check7bitAscii: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
       ? field.value.every((subfield) =>
           Array.isArray(subfield)
             ? subfield.every((input) => is7bitAscii(input))
-            : is7bitAscii(subfield)
+            : is7bitAscii(subfield),
         )
       : is7bitAscii(field.value),
     undefined,
     nistValidationError(
       `Field ${formatFieldKey(field.key.type, field.key.field)} is not 7-bit ASCII`,
-      field.key
-    )
+      field.key,
+    ),
   );
 };
 
@@ -129,8 +129,8 @@ const checkForbiddenRecordLengthField: NistFieldVisitorFn<void, NistFieldCodecOp
     undefined,
     nistValidationError(
       `Field ${formatFieldKey(field.key.type, field.key.field)} (LEN) must not be provided`,
-      field.key
-    )
+      field.key,
+    ),
   );
 };
 
@@ -142,8 +142,8 @@ const checkForbiddenIdcField: NistFieldVisitorFn<void, NistFieldCodecOptions> = 
     undefined,
     nistValidationError(
       `Field ${formatFieldKey(field.key.type, field.key.field)} (IDC) must not be provided`,
-      field.key
-    )
+      field.key,
+    ),
   );
 };
 
@@ -151,10 +151,10 @@ const checkForbiddenIdcField: NistFieldVisitorFn<void, NistFieldCodecOptions> = 
 export const nistValidation = <
   T extends NistFieldCodecOptions,
   U extends NistRecordCodecOptions<T>,
-  V extends NistFileCodecOptions<T, U>
+  V extends NistFileCodecOptions<T, U>,
 >(
   nist: NistFile,
-  options: NistCodecOptions<T, U, V> & { checkForbiddenFields: boolean }
+  options: NistCodecOptions<T, U, V> & { checkForbiddenFields: boolean },
 ): NistFieldVisitorFnReturn => {
   // 1. check mandatory (visit also fields which are missing)
   let result = visitNistFile<void, T, U>({
