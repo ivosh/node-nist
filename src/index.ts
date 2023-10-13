@@ -126,6 +126,7 @@ export interface NistType10Record {
   17?: /* svps */ string;
   20?: /* pos */ string;
   21?: /* poa */ string;
+  24?: /* sqs */ [string, string, string][];
   999: /* data */ Buffer;
   // For all other fields not mentioned above:
   [key: number]: NistFieldValue;
