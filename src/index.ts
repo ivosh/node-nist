@@ -154,6 +154,35 @@ export interface NistType13Record {
 
 /** Variable-resolution fingerprint image. */
 export interface NistType14Record {
+  1?: string;
+  2?: string;
+  3?: string;
+  4: string;
+  5: string;
+  6?: string;
+  7?: string;
+  8?: string;
+  9?: string;
+  10?: string;
+  11?: string;
+  12?: string;
+  13: string[];
+  14?: [string, string];
+  15?: [string, string, string, string, string, string][];
+  16?: string;
+  17?: string;
+  18?: [string, string][];
+  20?: string;
+  21?: [string, string, string, string, string, string][];
+  22?: [string, string][];
+  23?: [string, string, string, string][];
+  24?: [string, string, string, string][];
+  25?: [string, string, string, string][];
+  26?: string;
+  27?: string;
+  30?: string;
+  31?: string;
+  999?: Buffer;
   [key: number]: NistFieldValue;
 }
 
