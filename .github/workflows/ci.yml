@@ -1,4 +1,4 @@
-name: "CI pipeline"
+name: 'CI pipeline'
 
 on:
   push:
@@ -14,33 +14,34 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Run lint
-      run: npm run lint
+      - name: Run lint
+        run: npm run lint
 
-    - name: Run the tests
-      run: npm run test
-      
-    - name: Generate code coverage
-      run: npm run coverage
-    
-    - name: Upload code coverage
-      uses: codecov/codecov-action@v3
-      with:
-        fail_ci_if_error: true
-        verbose: true
+      - name: Run the tests
+        run: npm run test
+
+      - name: Generate code coverage
+        run: npm run coverage
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
 
   analyze:
     name: Analyze
@@ -54,15 +55,15 @@ jobs:
       fail-fast: false
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # Initializes the CodeQL tools for scanning.
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
