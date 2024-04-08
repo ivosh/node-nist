@@ -843,7 +843,11 @@ describe('negative test:', () => {
     const failure = (result as Failure<NistError>).error;
     expect(failure.category).toEqual('NIST');
     expect(failure.code).toEqual('NIST_ENCODE_ERROR');
-    expect(failure).toMatchSnapshot();
+    expect(failure.cause).toBeDefined();
+    expect(failure.cause?.name).toEqual('RangeError');
+    expect(failure.detail).toEqual(
+      'Cannot allocate buffer of 4294967581 bytes: limit is 4294967296 bytes.',
+    );
   });
 
   it('NIST field 4.003 is not numeric', () => {
