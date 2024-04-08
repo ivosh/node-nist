@@ -359,8 +359,8 @@ export const decodeGenericNistRecord = (
     let fieldEndOffset = separatorOffset
       ? separatorOffset - 1
       : recordEndOffset
-      ? recordEndOffset - 1
-      : endOffset;
+        ? recordEndOffset - 1
+        : endOffset;
 
     const nistFieldKey = decodeNistFieldKey(buffer, offset, fieldEndOffset, recordInstance);
     if (nistFieldKey.tag === 'failure') {
