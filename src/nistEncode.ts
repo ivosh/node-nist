@@ -36,6 +36,7 @@ import { failure, Result, success } from './result';
 /** Encoding options for a single NIST Field. */
 interface NistFieldEncodeOptions extends NistFieldCodecOptions {
   formatter?: (field: NistField, nist: NistFile) => NistFieldValue;
+  informationWriter?: (informationItem: NistInformationItem) => Buffer | undefined;
 }
 
 /** Encoding options for one NIST record. */
@@ -77,6 +78,15 @@ const invokeFormatters = ({
   });
 
   return success(undefined);
+};
+
+const defaultInformationWriter = (
+  informationItem: Exclude<NistInformationItem, undefined>,
+): Buffer => {
+  if (typeof informationItem === 'string') {
+    return Buffer.from(informationItem);
+  }
+  return informationItem;
 };
 
 /* --------------------------- Automatic fields ------------------------------------------------- */
@@ -122,49 +132,54 @@ interface LengthTracking {
   totalLength: number;
 }
 
-const informationItemLength = (informationItem: NistInformationItem): number =>
+const informationItemLength = (
+  informationItem: NistInformationItem,
+  options?: NistFieldEncodeOptions,
+): number =>
   informationItem
     ? typeof informationItem === 'string'
-      ? Buffer.byteLength(informationItem) // utf-8 is the default
+      ? options?.informationWriter?.(informationItem)?.byteLength ??
+        defaultInformationWriter(informationItem).byteLength // utf-8 is the default
       : informationItem.byteLength
     : 0;
 
-const subfieldLength = (subfield: NistSubfield): number =>
+const subfieldLength = (subfield: NistSubfield, options?: NistFieldEncodeOptions): number =>
   Array.isArray(subfield)
     ? subfield.reduce(
-        (total, informationItem) => total + informationItemLength(informationItem),
+        (total, informationItem) => total + informationItemLength(informationItem, options),
         0,
       ) +
       (subfield.length - 1) // unit separators
-    : informationItemLength(subfield);
+    : informationItemLength(subfield, options);
 
-const fieldValueLength = (value: NistFieldValue): number =>
+const fieldValueLength = (value: NistFieldValue, options?: NistFieldEncodeOptions): number =>
   Array.isArray(value)
     ? (value as NistInformationItem[]).reduce(
-        (total, subfield) => total + subfieldLength(subfield),
+        (total, subfield) => total + subfieldLength(subfield, options),
         0,
       ) +
       (value.length - 1) // record separators
-    : subfieldLength(value);
+    : subfieldLength(value, options);
 
-const computeFieldLength = (field: NistField): number => {
+const computeFieldLength = (field: NistField, options?: NistFieldEncodeOptions): number => {
   const fieldNumberLength = formatFieldKey(field.key.type, field.key.field).length;
-  const valueLength = fieldValueLength(field.value);
+  const valueLength = fieldValueLength(field.value, options);
   return fieldNumberLength + 1 + valueLength + 1; // 1 for ':', 1 for group separator
 };
 
 const assignFieldLength: NistFieldVisitorFn<LengthTracking, NistFieldEncodeOptions> = ({
   field,
   data,
+  options,
 }): NistFieldVisitorFnReturn => {
-  data.recordLength += computeFieldLength(field);
+  data.recordLength += computeFieldLength(field, options);
   return success(undefined);
 };
 
 const assignRecordLength: NistRecordVisitorFn<LengthTracking, NistFieldEncodeOptions> = (
   params,
 ): Result<void, NistValidationError> => {
-  const { nist, recordTypeNumber, record, recordNumber, visitorStrategy, data } = params;
+  const { nist, recordTypeNumber, record, recordNumber, visitorStrategy, data, options } = params;
 
   let recordLength;
   if (recordTypeNumber === 4) {
@@ -180,6 +195,7 @@ const assignRecordLength: NistRecordVisitorFn<LengthTracking, NistFieldEncodeOpt
       recordNumber,
       recordTypeNumber,
       visitorStrategy,
+      options,
     });
     if (result.tag === 'failure') {
       return result;
@@ -209,8 +225,10 @@ const assignRecordLength: NistRecordVisitorFn<LengthTracking, NistFieldEncodeOpt
 
 const computeAutomaticFields = ({
   nist,
+  options,
 }: {
   nist: NistFile;
+  options: NistEncodeOptions;
 }): Result<number, NistValidationError> => {
   const tracking = { currentIdc: 0, contentRecordCount: 0, records: [] };
   // 1. assign IDCs to xx.002 and determine value for 1.003
@@ -232,6 +250,7 @@ const computeAutomaticFields = ({
     nist,
     recordVisitor: { fn: assignRecordLength, data: lengthTracking },
     visitorStrategy: {},
+    options: options.codecOptions,
   });
   if (result.tag === 'failure') {
     return result;
@@ -350,44 +369,52 @@ const encodeType4Record = (
 const encodeNistInformationItem = (
   informationItem: NistInformationItem,
   data: EncodeTracking,
+  options?: NistFieldEncodeOptions,
 ): void => {
   if (informationItem) {
     if (typeof informationItem === 'string') {
-      data.offset += data.buf.write(informationItem, data.offset); // utf-8 is the default
+      const encodedBuffer =
+        options?.informationWriter?.(informationItem) ?? defaultInformationWriter(informationItem);
+      data.offset += encodedBuffer.copy(data.buf, data.offset);
     } else {
       data.offset += informationItem.copy(data.buf, data.offset);
     }
   }
 };
 
-const encodeNistSubfield = (subfield: NistSubfield, data: EncodeTracking): void => {
+const encodeNistSubfield = (
+  subfield: NistSubfield,
+  data: EncodeTracking,
+  options?: NistFieldEncodeOptions,
+): void => {
   if (Array.isArray(subfield)) {
     subfield.forEach((informationItem, index, array) => {
-      encodeNistInformationItem(informationItem, data);
+      encodeNistInformationItem(informationItem, data, options);
       if (index < array.length - 1) {
         data.offset = data.buf.writeUInt8(SEPARATOR_UNIT, data.offset);
       }
     });
   } else {
-    encodeNistInformationItem(subfield, data);
+    encodeNistInformationItem(subfield, data, options);
   }
 };
 
 const encodeNistField: NistFieldVisitorFn<EncodeTracking, NistFieldEncodeOptions> = ({
   field,
   data,
+  options,
 }): NistFieldVisitorFnReturn => {
   data.offset += data.buf.write(formatFieldKey(field.key.type, field.key.field), data.offset);
   data.offset = data.buf.writeUInt8(SEPARATOR_FIELD_NUMBER, data.offset);
   if (Array.isArray(field.value)) {
     field.value.forEach((subfield, index, array) => {
-      encodeNistSubfield(subfield, data);
+      encodeNistSubfield(subfield, data, options);
       if (index < array.length - 1) {
         data.offset = data.buf.writeUInt8(SEPARATOR_RECORD, data.offset);
       }
     });
   } else {
-    encodeNistSubfield(field.value, data);
+    encodeNistSubfield(field.value, data, options);
   }
 
   data.offset = data.buf.writeUInt8(SEPARATOR_GROUP, data.offset);
@@ -416,9 +443,11 @@ const encodeNistRecord: NistRecordVisitorFn<EncodeTracking, NistFieldEncodeOptio
 const encodeNistFile = ({
   nist,
   buf,
+  options,
 }: {
   nist: NistFile;
   buf: Buffer;
+  options?: NistEncodeOptions;
 }): Result<void, NistValidationError> => {
   const encodeTracking = { buf, offset: 0 };
   return visitNistFile<EncodeTracking, NistFieldEncodeOptions, NistRecordEncodeOptions>({
@@ -426,6 +455,7 @@ const encodeNistFile = ({
     nist,
     recordVisitor: { fn: encodeNistRecord, data: encodeTracking },
     visitorStrategy: {},
+    options: options?.codecOptions,
   });
 };
 
@@ -453,7 +483,7 @@ export const nistPopulate = (
   determineCharset({ nist });
 
   // 4. compute automatic fields: xx.002 (IDC), 1.003 and 1.015, xx.001
-  const result = computeAutomaticFields({ nist });
+  const result = computeAutomaticFields({ nist, options });
   if (result.tag === 'failure') {
     return result;
   }
@@ -491,7 +521,7 @@ export const nistEncode = (
   }
 
   // 4. encode all fields into the buf (including arrays of subfields)
-  const result3 = encodeNistFile({ nist: nistPopulated, buf });
+  const result3 = encodeNistFile({ nist: nistPopulated, buf, options });
   if (result3.tag === 'failure') {
     return result3;
   }

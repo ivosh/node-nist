@@ -216,6 +216,15 @@ interface VisitNistFileParams<
   recordVisitor?: NistRecordVisitor<D, T>;
   fieldVisitor?: NistFieldVisitor<D, T>;
 }
+
+export const getPerTotOptions = <
+  T extends NistFieldCodecOptions,
+  U extends NistRecordCodecOptions<T>,
+>(
+  options: NistFileCodecOptions<T, U>,
+  tot: string,
+) => R.mergeDeepRight(options.default, options[tot] || {});
+
 /* Visits the whole NistFile, all types, all records, all fields.
    recordVisitor and fieldVisitor can be overriden. */
 export const visitNistFile = <
@@ -232,7 +241,7 @@ export const visitNistFile = <
   const nistFile = nist as unknown as NistFileInternal;
   let summaryResult: Result<void, NistValidationError> = success(undefined); // assume success
 
-  const perTotOptions = options && R.mergeDeepRight(options.default, options[nist[1][4]] || {});
+  const perTotOptions = options && getPerTotOptions(options, nist[1][4]);
 
   for (const recordTypeNumber of nistRecordTypeNumbers) {
     if (nistFile[recordTypeNumber]) {
