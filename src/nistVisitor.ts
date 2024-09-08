@@ -8,6 +8,7 @@ import {
   NistFieldValue,
   NistFile,
   NistFileCodecOptions,
+  NistFileCodecOptionsPerTot,
   NistRecord,
   NistRecordCodecOptions,
 } from './index';
@@ -223,7 +224,7 @@ export const getPerTotOptions = <
 >(
   options: NistFileCodecOptions<T, U>,
   tot: string,
-) => R.mergeDeepRight(options.default, options[tot] || {});
+): NistFileCodecOptionsPerTot<T, U> => R.mergeDeepRight(options.default, options[tot] || {});
 
 /* Visits the whole NistFile, all types, all records, all fields.
    recordVisitor and fieldVisitor can be overriden. */
