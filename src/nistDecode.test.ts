@@ -560,6 +560,76 @@ describe('positive test:', () => {
       ],
     });
   });
+
+  it('decode field 2.005 with alternative information decoder', () => {
+    const nist: NistFile = {
+      1: {
+        2: '0502',
+        4: 'CRM',
+        5: '20191201',
+        7: 'DAI035454',
+        8: 'ORI38574354',
+        9: 'TCN2487S054',
+      },
+      2: {
+        4: 'John',
+        5: 'Doe',
+        7: '1978-05-12',
+      },
+    };
+
+    const buffer = nistEncode(nist, {
+      codecOptions: {
+        default: {
+          2: {
+            5: {
+              informationWriter: (information) => {
+                if (typeof information == 'string') return Buffer.from(information, 'latin1');
+                return information;
+              },
+            },
+          },
+        },
+      },
+    });
+    expect(buffer.tag).toEqual('success');
+
+    const result = nistDecode((buffer as Success<Buffer>).value, {
+      codecOptions: {
+        default: {
+          2: {
+            5: {
+              informationDecoder: (buffer) => buffer.toString('latin1'),
+            },
+          },
+        },
+      },
+    });
+
+    expect(result.tag).toEqual('success');
+    expect((result as Success<NistFile>).value).toEqual({
+      1: {
+        1: '113',
+        2: '0502',
+        3: [
+          ['1', '1'],
+          ['2', '00'],
+        ],
+        4: 'CRM',
+        5: '20191201',
+        7: 'DAI035454',
+        8: 'ORI38574354',
+        9: 'TCN2487S054',
+      },
+      2: {
+        1: '56',
+        2: '00',
+        4: 'John',
+        5: 'Doe',
+        7: '1978-05-12',
+      },
+    });
+  });
 });
 
 describe('negative test:', () => {
