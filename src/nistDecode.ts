@@ -26,6 +26,7 @@ import {
   SEPARATOR_UNIT,
 } from './nistUtils';
 import { nistValidation } from './nistValidation';
+import { getPerTotOptions } from './nistVisitor';
 import { failure, Result, success } from './result';
 
 /** Decoding options for a single NIST Field. */
@@ -38,6 +39,7 @@ export interface NistFieldDecodeOptions extends NistFieldCodecOptions {
    * This behaviour can be overridden on a per-field basis by passing a custom parser property.
    */
   parser?: (field: NistField, nist: NistFile) => Result<NistFieldValue, NistParseError>;
+  informationDecoder?: (buffer: Buffer, startOffset: number, endOffset: number) => string;
 }
 
 /** Decoding options for one NIST record. */
@@ -130,7 +132,9 @@ const decodeNistSubfield = (
   buffer: Buffer,
   startOffset: number,
   endOffset: number,
+  options?: NistFieldDecodeOptions,
 ): NistSubfield => {
+  const decoder = options?.informationDecoder || stringValue;
   let offset = startOffset;
 
   let unitSeparator = findSeparator(buffer, SEPARATOR_UNIT, offset, endOffset);
@@ -139,7 +143,7 @@ const decodeNistSubfield = (
     while (offset <= endOffset) {
       subfield = [
         ...subfield,
-        stringValue(buffer, offset, unitSeparator ? unitSeparator - 1 : endOffset),
+        decoder(buffer, offset, unitSeparator ? unitSeparator - 1 : endOffset),
       ];
       offset = (unitSeparator || endOffset) + 1;
       unitSeparator = findSeparator(buffer, SEPARATOR_UNIT, offset, endOffset);
@@ -149,9 +153,9 @@ const decodeNistSubfield = (
 
   // The same logic is present also in decodeNistFieldValue.
   if (alwaysDecodeAsSet(key)) {
-    return [stringValue(buffer, startOffset, endOffset)];
+    return [decoder(buffer, startOffset, endOffset)];
   }
-  return stringValue(buffer, startOffset, endOffset);
+  return decoder(buffer, startOffset, endOffset);
 };
 
 const decodeNistFieldValue = (
@@ -159,7 +163,9 @@ const decodeNistFieldValue = (
   buffer: Buffer,
   startOffset: number,
   endOffset: number,
+  options?: NistFieldDecodeOptions,
 ): NistFieldValue => {
+  const decoder = options?.informationDecoder || stringValue;
   let offset = startOffset;
 
   let recordSeparator = findSeparator(buffer, SEPARATOR_RECORD, offset, endOffset);
@@ -170,9 +176,9 @@ const decodeNistFieldValue = (
     if (!unitSeparator) {
       // The same logic is present also in decodeNistSubfield.
       if (alwaysDecodeAsSet(key)) {
-        return [[stringValue(buffer, startOffset, endOffset)]];
+        return [[decoder(buffer, startOffset, endOffset)]];
       }
-      return stringValue(buffer, startOffset, endOffset);
+      return decoder(buffer, startOffset, endOffset);
     }
     // Also deal with the case there is no record separator but some unit separators.
     return [decodeNistSubfield(key, buffer, startOffset, endOffset)];
@@ -343,6 +349,7 @@ export const decodeGenericNistRecord = (
   recordInstance: number,
   startOffset: number,
   endOffset: number,
+  options?: NistRecordDecodeOptions,
 ): Result<DecodeGenericRecordResult, NistDecodeError> => {
   let offset = startOffset;
   let recordEndOffset: number | null = null; // This will be assigned after parsing LEN field.
@@ -388,7 +395,13 @@ export const decodeGenericNistRecord = (
     const value =
       nistFieldKey.value.key.field === 999
         ? buffer.subarray(valueStartOffset, fieldEndOffset)
-        : decodeNistFieldValue(nistFieldKey.value.key, buffer, valueStartOffset, fieldEndOffset);
+        : decodeNistFieldValue(
+            nistFieldKey.value.key,
+            buffer,
+            valueStartOffset,
+            fieldEndOffset,
+            options,
+          );
     const nistField = { key: nistFieldKey.value.key, value };
 
     if (nistField.key.field === 1) {
@@ -445,7 +458,10 @@ const addRecord = (
   }
 };
 
-const decodeNistFile = (buffer: Buffer): Result<NistFileInternal, NistDecodeError> => {
+const decodeNistFile = (
+  buffer: Buffer,
+  options: NistDecodeOptions,
+): Result<NistFileInternal, NistDecodeError> => {
   let offset = 0;
   const endOffset = buffer.length - 1;
 
@@ -476,6 +492,9 @@ const decodeNistFile = (buffer: Buffer): Result<NistFileInternal, NistDecodeErro
 
   const nistFile: NistFileInternal = { 1: type1Record };
   offset = separatorOffset + 1;
+
+  const perTotOptions =
+    options?.codecOptions && getPerTotOptions(options.codecOptions, type1Record[4]);
 
   // 2. Decode all the remaining records in the order given by 1.003 (CNT).
   for (let recordIndex = 1; recordIndex < type1Record[3].length; recordIndex += 1) {
@@ -556,6 +575,7 @@ const decodeNistFile = (buffer: Buffer): Result<NistFileInternal, NistDecodeErro
           : (nistFile[recordTypeNumber] as NistRecord[]).length,
         offset,
         endOffset,
+        perTotOptions && perTotOptions[recordTypeNumber],
       );
       if (decodeResult.tag === 'failure') {
         return decodeResult;
@@ -576,7 +596,7 @@ export const nistDecode = (
   options: NistDecodeOptions = {},
 ): Result<NistFile, NistDecodeError | NistValidationError> => {
   // 1. Decode the buffer.
-  const nistFileInternal = decodeNistFile(buffer);
+  const nistFileInternal = decodeNistFile(buffer, options);
   if (nistFileInternal.tag === 'failure') {
     return nistFileInternal;
   }

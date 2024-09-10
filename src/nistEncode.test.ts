@@ -596,6 +596,44 @@ describe('positive test:', () => {
     expect((result as Success<Buffer>).value.byteLength).toBe(880293);
     expect((result as Success<Buffer>).value).toMatchSnapshot();
   });
+
+  it('Type-1, Type-2 with alternative informationWriter', () => {
+    const nist: NistFile = {
+      1: {
+        2: '0502',
+        4: 'CRM',
+        5: '20191201',
+        7: 'DAI035454',
+        8: 'ORI38574354',
+        9: 'TCN2487S054',
+      },
+      2: {
+        4: 'John',
+        5: 'Doe',
+        7: '1978-05-12',
+      },
+    };
+
+    const result = nistEncode(nist, {
+      ...nistEncodeOptions,
+      codecOptions: {
+        ...nistEncodeOptions.codecOptions,
+        default: {
+          2: {
+            5: {
+              informationWriter: (information) => {
+                if (typeof information == 'string') return Buffer.from(information, 'latin1');
+                return information;
+              },
+            },
+          },
+        },
+      },
+    });
+    expect(result.tag).toEqual('success');
+    expect((result as Success<Buffer>).value.byteLength).toBe(169);
+    expect((result as Success<Buffer>).value).toMatchSnapshot();
+  });
 });
 
 describe('negative test:', () => {
