@@ -80,9 +80,7 @@ const invokeFormatters = ({
   return success(undefined);
 };
 
-const defaultInformationWriter = (
-  informationItem: string,
-): Buffer => {
+const defaultInformationWriter = (informationItem: string): Buffer => {
   return Buffer.from(informationItem);
 };
 
