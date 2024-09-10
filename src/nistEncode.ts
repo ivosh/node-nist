@@ -81,12 +81,9 @@ const invokeFormatters = ({
 };
 
 const defaultInformationWriter = (
-  informationItem: Exclude<NistInformationItem, undefined>,
+  informationItem: string,
 ): Buffer => {
-  if (typeof informationItem === 'string') {
-    return Buffer.from(informationItem);
-  }
-  return informationItem;
+  return Buffer.from(informationItem);
 };
 
 /* --------------------------- Automatic fields ------------------------------------------------- */
