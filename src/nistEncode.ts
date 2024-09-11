@@ -35,8 +35,26 @@ import { failure, Result, success } from './result';
 
 /** Encoding options for a single NIST Field. */
 interface NistFieldEncodeOptions extends NistFieldCodecOptions {
+  /**
+   * Specify an optional formatter which will be invoked to format the NIST Field during the encoding process.
+   *
+   * @param field NIST field
+   * @param nist NIST file, for the context
+   * @returns a formatted NIST field value
+   */
   formatter?: (field: NistField, nist: NistFile) => NistFieldValue;
-  informationWriter?: (informationItem: NistInformationItem) => Buffer | undefined;
+  /**
+   * Specify an optional encoder which will be invoked to encode the formatted NIST Information Item
+   * during the encoding process.
+   *
+   * The default implementation uses `utf-8` for encoding a string into the Buffer.
+   * Encoding from a different charset is possible by passing a custom implementation of the `informationEncoder`.
+   *
+   * @param field NIST field
+   * @param nist NIST file, for the context
+   * @returns a formatted NIST field value
+   */
+  informationEncoder?: (informationItem: NistInformationItem) => Buffer | undefined;
 }
 
 /** Encoding options for one NIST record. */
@@ -133,7 +151,7 @@ const informationItemLength = (
 ): number =>
   informationItem
     ? typeof informationItem === 'string'
-      ? (options?.informationWriter?.(informationItem)?.byteLength ??
+      ? (options?.informationEncoder?.(informationItem)?.byteLength ??
         defaultInformationWriter(informationItem).byteLength) // utf-8 is the default
       : informationItem.byteLength
     : 0;
@@ -372,7 +390,7 @@ const encodeNistInformationItem = (
   if (informationItem) {
     if (typeof informationItem === 'string') {
       const encodedBuffer =
-        options?.informationWriter?.(informationItem) ?? defaultInformationWriter(informationItem);
+        options?.informationEncoder?.(informationItem) ?? defaultInformationWriter(informationItem);
       data.offset += encodedBuffer.copy(data.buf, data.offset);
     } else {
       data.offset += informationItem.copy(data.buf, data.offset);

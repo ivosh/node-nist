@@ -7,6 +7,7 @@ import {
   NistFieldValue,
   NistFile,
   NistFileCodecOptions,
+  NistInformationItem,
   NistRecord,
   NistRecordCodecOptions,
   NistSubfield,
@@ -31,7 +32,10 @@ import { Failure, failure, Result, success } from './result';
 
 /** Decoding options for a single NIST Field. */
 export interface NistFieldDecodeOptions extends NistFieldCodecOptions {
-  /** By default the following fields get decoded to a Buffer
+  /**
+   * Specify an optional parser which will be invoked to parse the NIST Field during the decoding process.
+   *
+   *  By default the following fields get decoded to a Buffer
    *  (instead of a NistFieldValue composed from a string or array of strings):
    * - 4.009 (DATA)
    * - 10.999 (DATA)
@@ -39,7 +43,23 @@ export interface NistFieldDecodeOptions extends NistFieldCodecOptions {
    * This behaviour can be overridden on a per-field basis by passing a custom parser property.
    */
   parser?: (field: NistField, nist: NistFile) => Result<NistFieldValue, NistParseError>;
-  informationDecoder?: (buffer: Buffer, startOffset: number, endOffset: number) => string;
+  /**
+   * Specify an optional decoder which will be invoked to decode the binary data into a NIST Field Information Item
+   * during the decoding process.
+   *
+   * The default implementation uses `utf-8` for decoding a byte sequence into string.
+   * Decoding to a different charset is possible by passing a custom implementation of the `informationDecoder`.
+   *
+   * @param buffer the Buffer with binary data
+   * @param startOffset where to start decoding from (inclusive)
+   * @param endOffset where to stop decoding from (exclusive)
+   * @returns NIST Information Item (typically a string)
+   */
+  informationDecoder?: (
+    buffer: Buffer,
+    startOffset: number,
+    endOffset: number,
+  ) => NistInformationItem;
 }
 
 /** Decoding options for one NIST record. */

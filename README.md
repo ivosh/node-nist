@@ -40,6 +40,9 @@ In fact, `Result` is very similar to `Either` monad known from functional progra
 options are specific as their second argument. This way you can specify default values and impose
 validation checks on individual NIST fields.
 
+The default charset for encoding and decoding is `utf-8`. Refer to an example below how
+to specify an alternative charset codec.
+
 ### Encoding
 
 1. Encode a simple NIST object containing only Type-1 and Type-2 records:
@@ -233,6 +236,58 @@ const nist: NistFile = {
   ],
 };
 
+const encodeResult = nistEncode(nist, {});
+if (encodeResult.tag === 'success') {
+  const buffer = encodeResult.value;
+  // perform action on successfull encode, such as sending out the buffer
+} else {
+  const error = encodeResult.error;
+  // perform action on unsuccessfull encode, such as logging an error
+}
+```
+
+4. Encode a simple NIST object from an alternative charset, such as `win-1255`,
+   instead of the default `utf-8`:
+
+```ts
+import { nistEncode, NistFile } from 'node-nist';
+
+const nist: NistFile = {
+  1: {
+    2: '0502', // version
+    4: 'CRM', // TOT
+    5: '20190717', // date
+    7: 'DAI035454', // DAI
+    8: 'ORI38574354', // ORI
+    9: 'TCN2487S054', // TCN
+  },
+  2: {
+    4: 'ג ‘ורג’',
+    5: 'קימברלי',
+    7: '1978-05-12',
+  },
+};
+
+const customEncoder = (informationItem: NistInformationItem): Buffer => {
+  // Your encoding logic, possibly utilizing an external library.
+};
+
+const nistEncodeOptions: NistEncodeOptions = {
+  codecOptions: {
+    default: {
+      2: {
+        4 /* first name */: {
+          informationEncoder: (informationItem: NistInformationItem) => customEncoder,
+          mandatory: true,
+        },
+        5 /* surname */: {
+          informationEncoder: (informationItem: NistInformationItem) => customEncoder,
+          mandatory: true,
+        },
+      },
+    },
+  },
+};
 const encodeResult = nistEncode(nist, {});
 if (encodeResult.tag === 'success') {
   const buffer = encodeResult.value;

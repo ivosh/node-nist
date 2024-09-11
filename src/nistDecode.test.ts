@@ -586,7 +586,7 @@ describe('positive test:', () => {
         default: {
           2: {
             5: {
-              informationWriter: (information) => {
+              informationEncoder: (information) => {
                 if (typeof information == 'string') return Buffer.from(information, 'latin1');
                 return information;
               },
