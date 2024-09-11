@@ -27,6 +27,7 @@ export const nistValidationError = (
 });
 
 /* Used only internally to index into all NIST record types. */
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface NistFileInternal {
   [key: number]: NistRecord | NistRecord[];
 }
@@ -61,7 +62,7 @@ export const provideDefaults = ({
     | NistFileCodecOptions<NistFieldCodecOptions, NistRecordCodecOptions<NistFieldCodecOptions>>
     | undefined;
 }): Result<void, NistValidationError> => {
-  visitNistFile<void, NistFieldCodecOptions, NistRecordCodecOptions<NistFieldCodecOptions>>({
+  visitNistFile<undefined, NistFieldCodecOptions, NistRecordCodecOptions<NistFieldCodecOptions>>({
     fieldVisitor: { fn: defaultValueForNistField, data: undefined },
     nist,
     options: codecOptions,

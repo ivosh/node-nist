@@ -70,7 +70,7 @@ const invokeFormatters = ({
   nist: NistFile;
   options: NistEncodeOptions;
 }): Result<void, NistValidationError> => {
-  visitNistFile<void, NistFieldEncodeOptions, NistRecordEncodeOptions>({
+  visitNistFile<undefined, NistFieldEncodeOptions, NistRecordEncodeOptions>({
     fieldVisitor: { fn: formatNistField, data: undefined },
     nist,
     options: options && options.codecOptions,
@@ -87,7 +87,7 @@ const defaultInformationWriter = (informationItem: string): Buffer => {
 /* --------------------------- Automatic fields ------------------------------------------------- */
 
 const determineCharset = ({ nist }: { nist: NistFile }): Result<void, NistValidationError> => {
-  const result = visitNistFile<void, NistFieldEncodeOptions, NistRecordEncodeOptions>({
+  const result = visitNistFile<undefined, NistFieldEncodeOptions, NistRecordEncodeOptions>({
     fieldVisitor: { fn: check7bitAscii, data: undefined },
     nist,
     visitorStrategy: {},
@@ -133,8 +133,8 @@ const informationItemLength = (
 ): number =>
   informationItem
     ? typeof informationItem === 'string'
-      ? options?.informationWriter?.(informationItem)?.byteLength ??
-        defaultInformationWriter(informationItem).byteLength // utf-8 is the default
+      ? (options?.informationWriter?.(informationItem)?.byteLength ??
+        defaultInformationWriter(informationItem).byteLength) // utf-8 is the default
       : informationItem.byteLength
     : 0;
 

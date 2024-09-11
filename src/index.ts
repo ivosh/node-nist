@@ -70,6 +70,7 @@ export interface NistType1Record {
 }
 
 /** User-defined data. */
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface NistType2Record {
   [key: number]: NistFieldValue;
 }
@@ -227,6 +228,7 @@ export interface NistFieldCodecOptions {
 }
 
 /** Common encoding and decoding options for one NIST record. */
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface NistRecordCodecOptions<T extends NistFieldCodecOptions> {
   [key: number]: T;
 }
@@ -235,6 +237,7 @@ export interface NistRecordCodecOptions<T extends NistFieldCodecOptions> {
  * Common encoding and decoding options for a NIST file.
  * Represents codec options for default or TOT-specific processing.
  */
+// eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
 export interface NistFileCodecOptionsPerTot<
   T extends NistFieldCodecOptions,
   U extends NistRecordCodecOptions<T>,

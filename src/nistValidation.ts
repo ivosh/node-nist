@@ -157,7 +157,7 @@ export const nistValidation = <
   options: NistCodecOptions<T, U, V> & { checkForbiddenFields: boolean },
 ): NistFieldVisitorFnReturn => {
   // 1. check mandatory (visit also fields which are missing)
-  let result = visitNistFile<void, T, U>({
+  let result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkMandatory, data: undefined },
     nist,
     options: options && options.codecOptions,
@@ -168,7 +168,7 @@ export const nistValidation = <
   }
 
   // 2. check maxLength
-  result = visitNistFile<void, T, U>({
+  result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkMaxLength, data: undefined },
     nist,
     options: options && options.codecOptions,
@@ -179,7 +179,7 @@ export const nistValidation = <
   }
 
   // 3. check minLength
-  result = visitNistFile<void, T, U>({
+  result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkMinLength, data: undefined },
     nist,
     options: options && options.codecOptions,
@@ -190,7 +190,7 @@ export const nistValidation = <
   }
 
   // 4. check regexs
-  result = visitNistFile<void, T, U>({
+  result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkRegexs, data: undefined },
     nist,
     options: options && options.codecOptions,
@@ -204,7 +204,7 @@ export const nistValidation = <
   // :TODO:
 
   // 6. check 7-bit ASCII for all Type-1 fields
-  result = visitNistRecord<void, T>({
+  result = visitNistRecord<undefined, T>({
     data: undefined,
     fieldVisitor: { fn: check7bitAscii, data: undefined },
     nist,
@@ -219,7 +219,7 @@ export const nistValidation = <
 
   // 7. NIST fields xx.001 (record length) must not be provided.
   if (options.checkForbiddenFields) {
-    result = visitNistFile<void, T, U>({
+    result = visitNistFile<undefined, T, U>({
       fieldVisitor: { fn: checkForbiddenRecordLengthField, data: undefined },
       nist,
       options: options && options.codecOptions,
@@ -232,7 +232,7 @@ export const nistValidation = <
 
   // 8. NIST fields xx.002 (IDC) must not be provided.
   if (options.checkForbiddenFields) {
-    result = visitNistFile<void, T, U>({
+    result = visitNistFile<undefined, T, U>({
       fieldVisitor: { fn: checkForbiddenIdcField, data: undefined },
       nist,
       options: options && options.codecOptions,

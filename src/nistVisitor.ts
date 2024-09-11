@@ -1,6 +1,5 @@
 // Ramda.deepMergeRight is currently used. This dependency could be removed in future.
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const R = require('ramda'); // tslint:disable-line:no-var-requires
+import { mergeDeepRight } from 'ramda';
 
 import {
   NistField,
@@ -33,7 +32,7 @@ interface NistFieldVisitorParams<D, T extends NistFieldCodecOptions> {
   data: D;
 }
 
-export type NistFieldVisitorFnReturn = Result<NistFieldValue | void, NistValidationError>;
+export type NistFieldVisitorFnReturn = Result<NistFieldValue, NistValidationError>;
 export type NistFieldVisitorFn<D, T extends NistFieldCodecOptions> = (
   params: NistFieldVisitorParams<D, T>,
 ) => NistFieldVisitorFnReturn;
@@ -224,7 +223,8 @@ export const getPerTotOptions = <
 >(
   options: NistFileCodecOptions<T, U>,
   tot: string,
-): NistFileCodecOptionsPerTot<T, U> => R.mergeDeepRight(options.default, options[tot] || {});
+): NistFileCodecOptionsPerTot<T, U> =>
+  mergeDeepRight(options.default, options[tot] || {}) as NistFileCodecOptionsPerTot<T, U>;
 
 /* Visits the whole NistFile, all types, all records, all fields.
    recordVisitor and fieldVisitor can be overriden. */
