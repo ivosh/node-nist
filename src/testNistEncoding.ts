@@ -30,8 +30,7 @@ export const nistEncodeOptions: NistEncodeOptions = {
           regexs: [{ regex: '^[IN]$', errMsg: 'Expected I or N' }],
         },
         64 /* can */: {
-          mandatory: (field: NistField, nist: NistFile): boolean =>
-            (nist[2] && nist[2][59] && nist[2][59] === 'I') || false,
+          mandatory: (field: NistField, nist: NistFile): boolean => nist[2]?.[59] === 'I' || false,
         },
       },
     },

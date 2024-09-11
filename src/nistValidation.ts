@@ -19,7 +19,7 @@ const checkMandatory: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
   params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
-  if (options && options.mandatory) {
+  if (options?.mandatory) {
     const mandatory =
       typeof options.mandatory === 'boolean' ? options.mandatory : options.mandatory(field, nist);
     const isValueRequired = mandatory && !options.defaultValue;
@@ -39,7 +39,7 @@ const checkMaxLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
   params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
-  if (options && options.maxLength) {
+  if (options?.maxLength) {
     const maxLength =
       typeof options.maxLength === 'number' ? options.maxLength : options.maxLength(field, nist);
     return match(
@@ -49,7 +49,7 @@ const checkMaxLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
         `Field ${formatFieldKey(
           field.key.type,
           field.key.field,
-        )} exceeds maximum length of ${maxLength}`,
+        )} exceeds maximum length of ${maxLength.toString()}`,
         field.key,
       ),
     );
@@ -61,7 +61,7 @@ const checkMinLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
   params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
-  if (options && options.minLength) {
+  if (options?.minLength) {
     const minLength =
       typeof options.minLength === 'number' ? options.minLength : options.minLength(field, nist);
     return match(
@@ -71,7 +71,7 @@ const checkMinLength: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
         `Field ${formatFieldKey(
           field.key.type,
           field.key.field,
-        )} does not meet minimal length of ${minLength}`,
+        )} does not meet minimal length of ${minLength.toString()}`,
         field.key,
       ),
     );
@@ -83,7 +83,7 @@ const checkRegexs: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
   params,
 ): NistFieldVisitorFnReturn => {
   const { nist, field, options } = params;
-  if (options && options.regexs) {
+  if (options?.regexs) {
     for (const item of options.regexs) {
       const regex = typeof item === 'object' ? item : item(field, nist);
       return match(
@@ -160,7 +160,7 @@ export const nistValidation = <
   let result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkMandatory, data: undefined },
     nist,
-    options: options && options.codecOptions,
+    options: options.codecOptions,
     visitorStrategy: { visitMissingFields: true },
   });
   if (result.tag === 'failure' && !options.ignoreMissingMandatoryFields) {
@@ -171,7 +171,7 @@ export const nistValidation = <
   result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkMaxLength, data: undefined },
     nist,
-    options: options && options.codecOptions,
+    options: options.codecOptions,
     visitorStrategy: {},
   });
   if (result.tag === 'failure' && !options.ignoreValidationChecks) {
@@ -182,7 +182,7 @@ export const nistValidation = <
   result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkMinLength, data: undefined },
     nist,
-    options: options && options.codecOptions,
+    options: options.codecOptions,
     visitorStrategy: {},
   });
   if (result.tag === 'failure' && !options.ignoreValidationChecks) {
@@ -193,7 +193,7 @@ export const nistValidation = <
   result = visitNistFile<undefined, T, U>({
     fieldVisitor: { fn: checkRegexs, data: undefined },
     nist,
-    options: options && options.codecOptions,
+    options: options.codecOptions,
     visitorStrategy: {},
   });
   if (result.tag === 'failure' && !options.ignoreValidationChecks) {
@@ -222,7 +222,7 @@ export const nistValidation = <
     result = visitNistFile<undefined, T, U>({
       fieldVisitor: { fn: checkForbiddenRecordLengthField, data: undefined },
       nist,
-      options: options && options.codecOptions,
+      options: options.codecOptions,
       visitorStrategy: {},
     });
     if (result.tag === 'failure') {
@@ -235,7 +235,7 @@ export const nistValidation = <
     result = visitNistFile<undefined, T, U>({
       fieldVisitor: { fn: checkForbiddenIdcField, data: undefined },
       nist,
-      options: options && options.codecOptions,
+      options: options.codecOptions,
       visitorStrategy: {},
     });
     if (result.tag === 'failure') {

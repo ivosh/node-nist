@@ -137,7 +137,7 @@ export const visitNistRecord = <D, T extends NistFieldCodecOptions>({
       nist: nist as unknown as NistFileInternal,
       options: options && options[fieldNumber],
       record,
-      value,
+      value: value as NistFieldValue,
     });
     if (result.tag === 'failure') {
       if (visitorStrategy.noStopOnErrors) {
@@ -224,7 +224,7 @@ export const getPerTotOptions = <
   options: NistFileCodecOptions<T, U>,
   tot: string,
 ): NistFileCodecOptionsPerTot<T, U> =>
-  mergeDeepRight(options.default, options[tot] || {}) as NistFileCodecOptionsPerTot<T, U>;
+  mergeDeepRight(options.default, options[tot]) as NistFileCodecOptionsPerTot<T, U>;
 
 /* Visits the whole NistFile, all types, all records, all fields.
    recordVisitor and fieldVisitor can be overriden. */
@@ -245,6 +245,7 @@ export const visitNistFile = <
   const perTotOptions = options && getPerTotOptions(options, nist[1][4]);
 
   for (const recordTypeNumber of nistRecordTypeNumbers) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (nistFile[recordTypeNumber]) {
       const result = visitNistRecords<D, T>({
         fieldVisitor,
@@ -277,6 +278,7 @@ const shallowCopyNistFieldValue: NistFieldVisitorFn<NistFileInternal, NistFieldC
   const nistFile = nist as unknown as NistFileInternal;
   const { type: typeNumber, record: recordNumber, field: fieldNumber } = field.key;
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!nistFileCopy[typeNumber]) {
     nistFileCopy[typeNumber] = Array.isArray(nistFile[typeNumber]) ? [] : {};
   }

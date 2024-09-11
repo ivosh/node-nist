@@ -354,6 +354,7 @@ describe('positive test:', () => {
           12: 'YCC',
           20: 'F',
           39: '784336970',
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           999: expect.any(Buffer),
         },
       ],
@@ -368,6 +369,8 @@ describe('positive test:', () => {
 
     expect(result.tag).toEqual('success');
     const nistFile = (result as Success<NistFile>).value;
+    expect(nistFile[9]).toBeDefined();
+
     const type9Records: NistType9Record[] = nistFile[9] as NistType9Record[];
     const type9Record = type9Records[0];
     expect(type9Record).toEqual({

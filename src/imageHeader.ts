@@ -1,4 +1,4 @@
-import { failure, Result, success } from './result';
+import { Failure, failure, Result, success } from './result';
 
 export interface Dimensions {
   width: number;
@@ -28,6 +28,22 @@ export interface ImageHeaderError {
   code: 'IMAGE_HEADER';
   detail: string;
 }
+
+const truncatedError = (
+  imageKind: string,
+  segment: string | undefined,
+  startOffset: number,
+  shift: number,
+  endOffset: number,
+): Failure<ImageHeaderError> => {
+  const message = `${imageKind} image seems to be truncated${segment ? ` for ${segment}` : ``}`;
+  const numbers = `${startOffset.toString()} + ${shift.toString()} >= ${endOffset.toString()}`;
+  return failure({
+    category: 'VALIDATION',
+    code: 'IMAGE_HEADER',
+    detail: `${message}: ${numbers}`,
+  });
+};
 
 const isJpegImage = (data: Buffer): Result<void, ImageHeaderError> => {
   if (data.length < 18) {
@@ -91,11 +107,7 @@ export const getJpegHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErro
     if (data[offset + 1] === 0xc0) {
       // Start of frame #0 (SOF0) marker: 0xffc0.
       if (offset + 8 >= data.length) {
-        return failure({
-          category: 'VALIDATION',
-          code: 'IMAGE_HEADER',
-          detail: `JPEG image seems to be truncated for SOF0 segment: ${offset} + 8 >= ${data.length}`,
-        });
+        return truncatedError('JPEG', 'SOF0 segment', offset, 8, data.length);
       }
       return success({
         dimensions: { height: data.readUInt16BE(offset + 5), width: data.readUInt16BE(offset + 7) },
@@ -109,7 +121,7 @@ export const getJpegHeader = (data: Buffer): Result<ImageHeader, ImageHeaderErro
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: `JPEG segment contains segment length of 0 at offset ${offset}.`,
+        detail: `JPEG segment contains segment length of 0 at offset ${offset.toString()}.`,
       });
     }
     offset += 2 + segmentLength; // Go to the next segment (skip segment marker as well).
@@ -153,21 +165,13 @@ export const getJpeg2000Header = (data: Buffer): Result<ImageHeader, ImageHeader
   do {
     // Account also for segment type, not only segment length.
     if (offset + 8 >= data.length) {
-      return failure({
-        category: 'VALIDATION',
-        code: 'IMAGE_HEADER',
-        detail: `JPEG2000 image seems to be truncated: ${offset} + 8 >= ${data.length}`,
-      });
+      return truncatedError('JPEG2000', undefined, offset, 8, data.length);
     }
 
     if (data.toString(undefined, offset + 4, offset + 8) === 'jp2h') {
       // JPEG2000 header chunk (jp2h)
       if (offset + 24 >= data.length) {
-        return failure({
-          category: 'VALIDATION',
-          code: 'IMAGE_HEADER',
-          detail: `JPEG2000 image seems to be truncated for header segment: ${offset} + 24 >= ${data.length}`,
-        });
+        return truncatedError('JPEG2000', 'header segment', offset, 24, data.length);
       }
       return success({
         dimensions: {
@@ -183,7 +187,7 @@ export const getJpeg2000Header = (data: Buffer): Result<ImageHeader, ImageHeader
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: `JPEG2000 segment contains segment length of 0 at offset ${offset}.`,
+        detail: `JPEG2000 segment contains segment length of 0 at offset ${offset.toString()}.`,
       });
     }
     offset += segmentLength; // Go to the next segment.
@@ -267,11 +271,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
     if (data[offset + 1] === 0xa2) {
       // Start of frame (SOF) marker: 0xffa2.
       if (offset + 10 >= data.length) {
-        return failure({
-          category: 'VALIDATION',
-          code: 'IMAGE_HEADER',
-          detail: `WSQ image seems to be truncated for SOF segment: ${offset} + 10 >= ${data.length}`,
-        });
+        return truncatedError('WSQ', 'SOF segment', offset, 10, data.length);
       }
 
       dimensions = { height: data.readUInt16BE(offset + 6), width: data.readUInt16BE(offset + 8) };
@@ -280,11 +280,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
       // We process this segment only when resolution has not been determined, yet.
       // Buggy implementations insert multiple COM segments (some of which are empty).
       if (offset + 11 >= data.length) {
-        return failure({
-          category: 'VALIDATION',
-          code: 'IMAGE_HEADER',
-          detail: `WSQ image seems to be truncated for COM segment: ${offset} + 11 >= ${data.length}`,
-        });
+        return truncatedError('WSQ', 'COM segment', offset, 11, data.length);
       }
 
       const segLength = data.readUInt16BE(offset + 2);
@@ -301,7 +297,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
         }
 
         if (attributes.value.has('PPI')) {
-          const ppi = parseInt(attributes.value.get('PPI') || '', 10);
+          const ppi = parseInt(attributes.value.get('PPI') ?? '', 10);
           if (isNaN(ppi)) {
             return failure({
               category: 'VALIDATION',
@@ -327,7 +323,7 @@ export const getWsqHeader = (data: Buffer): Result<ImageHeader, ImageHeaderError
       return failure({
         category: 'VALIDATION',
         code: 'IMAGE_HEADER',
-        detail: `WSQ segment contains segment length of 0 at offset ${offset}.`,
+        detail: `WSQ segment contains segment length of 0 at offset ${offset.toString()}.`,
       });
     }
     offset += 2 + segmentLength; // Go to the next segment (skip segment marker as well).

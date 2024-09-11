@@ -13,7 +13,7 @@ import { Result, success } from './result';
 export const nistRecordTypeNumbers = [1, 2, 4, 9, 10, 13, 14];
 
 export const formatFieldKey = (typeNumber: number | string, fieldNumber: number | string): string =>
-  `${typeNumber}.${String(fieldNumber).padStart(3, '0')}`;
+  `${typeNumber.toString()}.${fieldNumber.toString().padStart(3, '0')}`;
 
 export const nistValidationError = (
   detail: string,
@@ -23,7 +23,7 @@ export const nistValidationError = (
   code: 'NIST_VALIDATION_ERROR',
   detail,
   nistSource: source,
-  source: `${source.type}/${source.record}/${source.field}`,
+  source: `${source.type.toString()}/${source.record.toString()}/${source.field.toString()}`,
 });
 
 /* Used only internally to index into all NIST record types. */
@@ -43,7 +43,7 @@ const defaultValueForNistField: NistFieldVisitorFn<
   { defaultValue?: NistFieldCodecOptions['defaultValue'] }
 > = (params): NistFieldVisitorFnReturn => {
   const { field, nist, options } = params;
-  if (!field.value && options && options.defaultValue) {
+  if (!field.value && options?.defaultValue) {
     const defaultValue =
       typeof options.defaultValue === 'function'
         ? options.defaultValue(field, nist)

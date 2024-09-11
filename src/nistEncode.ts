@@ -57,7 +57,7 @@ const formatNistField: NistFieldVisitorFn<void, NistFieldEncodeOptions> = (
   params,
 ): NistFieldVisitorFnReturn => {
   const { field, nist, options } = params;
-  if (options && options.formatter) {
+  if (options?.formatter) {
     return success(options.formatter(field, nist));
   }
   return success(undefined);
@@ -73,7 +73,7 @@ const invokeFormatters = ({
   visitNistFile<undefined, NistFieldEncodeOptions, NistRecordEncodeOptions>({
     fieldVisitor: { fn: formatNistField, data: undefined },
     nist,
-    options: options && options.codecOptions,
+    options: options.codecOptions,
     visitorStrategy: {},
   });
 
@@ -279,7 +279,10 @@ const toNumber = (
   if (typeof value !== 'string') {
     return failure(
       nistValidationError(
-        `Invalid value format for ${formatFieldKey(recordTypeNumber, fieldNumber)}: ${value}`,
+        `Invalid value format for ${formatFieldKey(
+          recordTypeNumber,
+          fieldNumber,
+        )}: ${value.toString()}`,
         { type: recordTypeNumber, record: recordNumber, field: fieldNumber },
       ),
     );
@@ -511,8 +514,14 @@ export const nistEncode = (
   try {
     buf = Buffer.allocUnsafe(totalLength);
   } catch (cause: unknown) {
-    const detail = `Cannot allocate buffer of ${totalLength} bytes: limit is ${buffer.constants.MAX_LENGTH} bytes.`;
-    return failure({ category: 'NIST', code: 'NIST_ENCODE_ERROR', detail, cause: cause as Error });
+    const problem = `Cannot allocate buffer of ${totalLength.toString()} bytes: `;
+    const limit = `limit is ${buffer.constants.MAX_LENGTH.toString()} bytes.`;
+    return failure({
+      category: 'NIST',
+      code: 'NIST_ENCODE_ERROR',
+      detail: `${problem}${limit}`,
+      cause: cause as Error,
+    });
   }
 
   // 4. encode all fields into the buf (including arrays of subfields)

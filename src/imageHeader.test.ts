@@ -22,7 +22,7 @@ beforeAll(async () => {
 });
 
 describe('JPEG image header:', () => {
-  it('real JPEG image', async () => {
+  it('real JPEG image', () => {
     const result = getJpegHeader(jpeg);
 
     expect(result.tag).toEqual('success');
@@ -181,7 +181,7 @@ describe('JPEG image header:', () => {
 });
 
 describe('JPEG2000 image header:', () => {
-  it('real JPEG2000 image', async () => {
+  it('real JPEG2000 image', () => {
     const result = getJpeg2000Header(jp2);
 
     expect(result.tag).toEqual('success');
@@ -191,7 +191,7 @@ describe('JPEG2000 image header:', () => {
     });
   });
 
-  it('minimalist JPEG2000 image', async () => {
+  it('minimalist JPEG2000 image', () => {
     const result = getJpeg2000Header(
       Buffer.from([
         0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50, 0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a, 0x00, 0x00, 0x00,
@@ -324,7 +324,7 @@ describe('image types:', () => {
 });
 
 describe('WSQ image header:', () => {
-  it('real WSQ image', async () => {
+  it('real WSQ image', () => {
     const result = getWsqHeader(wsq);
 
     expect(result.tag).toEqual('success');

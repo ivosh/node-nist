@@ -163,7 +163,7 @@ exports[`negative test: Type-1 record does not have field 1.003 (CNT) 1`] = `
 {
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
-  "detail": "NIST field 1.003 (CNT) was not found between offsets [0, 7].",
+  "detail": "Cannot find NIST field 1.003 (CNT) between offsets [0, 7].",
   "endOffset": 7,
   "nistSource": undefined,
   "source": undefined,
@@ -219,7 +219,7 @@ exports[`negative test: Type-1 record length field does not contain field number
 {
   "category": "NIST",
   "code": "NIST_DECODE_ERROR",
-  "detail": "Cannot find NIST field number separator between offsets [5, 11]",
+  "detail": "Cannot find NIST field number separator between offsets [5, 11].",
   "endOffset": 11,
   "nistSource": undefined,
   "source": undefined,

@@ -18,4 +18,9 @@ export default tseslint.config(
   {
     ignores: ['lib/'],
   },
+  {
+    rules: {
+      '@typescript-eslint/non-nullable-type-assertion-style': 'off',
+    },
+  },
 );
