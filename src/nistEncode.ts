@@ -50,9 +50,8 @@ interface NistFieldEncodeOptions extends NistFieldCodecOptions {
    * The default implementation uses `utf-8` for encoding a string into the Buffer.
    * Encoding from a different charset is possible by passing a custom implementation of the `informationEncoder`.
    *
-   * @param field NIST field
-   * @param nist NIST file, for the context
-   * @returns a formatted NIST field value
+   * @param informationItem NIST information item to be encoded
+   * @returns Buffer with the encoded NIST information item
    */
   informationEncoder?: (informationItem: NistInformationItem) => Buffer | undefined;
 }

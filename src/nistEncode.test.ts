@@ -1,3 +1,4 @@
+import buffer from 'buffer';
 import { randomFillSync } from 'crypto';
 import fs from 'fs';
 import { nistDecode, nistEncode, NistError, NistFile, NistType1Record } from './index';
@@ -877,15 +878,21 @@ describe('negative test:', () => {
     };
     const result = nistEncode(nist, nistEncodeOptions);
 
-    expect(result.tag).toEqual('failure');
-    const failure = (result as Failure<NistError>).error;
-    expect(failure.category).toEqual('NIST');
-    expect(failure.code).toEqual('NIST_ENCODE_ERROR');
-    expect(failure.cause).toBeDefined();
-    expect(failure.cause?.name).toEqual('RangeError');
-    expect(failure.detail).toEqual(
-      'Cannot allocate buffer of 4294967581 bytes: limit is 4294967296 bytes.',
-    );
+    if (buffer.constants.MAX_LENGTH <= 4294967296) {
+      // Node versions up to 21.x have Buffer size limit of 4 GiB.
+      expect(result.tag).toEqual('failure');
+      const failure = (result as Failure<NistError>).error;
+      expect(failure.category).toEqual('NIST');
+      expect(failure.code).toEqual('NIST_ENCODE_ERROR');
+      expect(failure.cause).toBeDefined();
+      expect(failure.cause?.name).toEqual('RangeError');
+      expect(failure.detail).toEqual(
+        'Cannot allocate buffer of 4294967581 bytes: limit is 4294967296 bytes.',
+      );
+    } else {
+      // Node versions starting from 22.x. have Buffer size limit of 8 PiB.
+      expect(result.tag).toEqual('success');
+    }
   });
 
   it('NIST field 4.003 is not numeric', () => {
