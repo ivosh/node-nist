@@ -135,7 +135,7 @@ export const visitNistRecord = <D, T extends NistFieldCodecOptions>({
       fieldVisitor,
       key: { type: recordTypeNumber, record: recordNumber, field: fieldNumber },
       nist: nist as unknown as NistFileInternal,
-      options: options && options[fieldNumber],
+      options: options?.[fieldNumber],
       record,
       value: value as NistFieldValue,
     });
@@ -223,8 +223,7 @@ export const getPerTotOptions = <
 >(
   options: NistFileCodecOptions<T, U>,
   tot: string,
-): NistFileCodecOptionsPerTot<T, U> =>
-  mergeDeepRight(options.default, options[tot]) as NistFileCodecOptionsPerTot<T, U>;
+): NistFileCodecOptionsPerTot<T, U> => mergeDeepRight(options.default, options[tot]);
 
 /* Visits the whole NistFile, all types, all records, all fields.
    recordVisitor and fieldVisitor can be overriden. */
@@ -250,7 +249,7 @@ export const visitNistFile = <
       const result = visitNistRecords<D, T>({
         fieldVisitor,
         nist: nistFile,
-        options: perTotOptions && perTotOptions[recordTypeNumber],
+        options: perTotOptions?.[recordTypeNumber],
         recordTypeNumber,
         recordVisitor,
         records: nistFile[recordTypeNumber],

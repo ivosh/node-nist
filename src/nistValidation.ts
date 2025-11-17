@@ -87,7 +87,7 @@ const checkRegexs: NistFieldVisitorFn<void, NistFieldCodecOptions> = (
     for (const item of options.regexs) {
       const regex = typeof item === 'object' ? item : item(field, nist);
       return match(
-        !!(typeof field.value === 'string' && RegExp(regex.regex).test(field.value)),
+        typeof field.value === 'string' && RegExp(regex.regex).test(field.value),
         undefined,
         nistValidationError(
           `${regex.errMsg} for field ${formatFieldKey(field.key.type, field.key.field)}`,

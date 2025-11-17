@@ -244,7 +244,7 @@ const decodeNistFieldKey = (
   const fieldNumber = stringValue(buffer, startOffset, separatorOffset - 1);
   const match = /^(\d+)\.(\d+)$/.exec(fieldNumber);
   if (!match) {
-    const problem = `NIST field number '${fieldNumber.toString()}' at offset ${startOffset.toString()}`;
+    const problem = `NIST field number '${fieldNumber}' at offset ${startOffset.toString()}`;
     const expected = `does not have a correct format of 'x.yyy': ${inspect(fieldNumber, {
       depth: Infinity,
     })}.`;
@@ -389,7 +389,7 @@ export const decodeGenericNistRecord = (
   const nistRecord: NistRecord = {};
   let recordLength: Result<number, NistDecodeError> | null = null;
 
-  while (offset < (recordEndOffset || endOffset)) {
+  while (offset < (recordEndOffset ?? endOffset)) {
     const separatorOffset = findSeparators(
       buffer,
       [SEPARATOR_FILE, SEPARATOR_GROUP],
