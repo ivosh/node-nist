@@ -305,7 +305,5 @@ if (encodeResult.tag === 'success') {
 - Only one Type-2 record is supported.
 - Information designation character (IDC) is automatically generated during encoding (linking of records is not supported).
 - All Type-1 fields must be 7-bit ASCII.
-- Only UTF-8 is supported for other record types.
 - Only one Friction ridge generalized position (FGP, 4.004) is supported per one Type-4 record.
-- Limit of the encoded NIST file length is 1 GB.
-- Limit of the encoded NIST file length is 4 GB, as given by a size of one single Node Buffer.
+- Limit of the encoded NIST file length is 4 GB for Node versions prior to 22.x, as given by a size of one single Node Buffer. Node 22.x has Buffer size limit of 8 PiB.
